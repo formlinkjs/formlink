@@ -1,0 +1,25 @@
+* text=auto
+*.lockb binary diff=lockb
+
+# TypeScript files should be treated as text
+*.ts text
+
+# TypeScript declaration files should also be treated as text
+*.d.ts text
+
+# JavaScript files generated from TypeScript should be treated as text
+*.js text
+
+# JSON files should be treated as text
+*.json text
+
+# TypeScript source map files should be treated as binary
+*.map binary
+
+# Configuration files
+tsconfig.json text
+jest.config.js text
+
+# Tests should be treated as text
+__tests__/**/* text
+tests/**/* text

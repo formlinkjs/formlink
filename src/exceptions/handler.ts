@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import { Handler as ExceptionHadlder } from '@/interfaces/exceptions/handler';
+import { Parser } from './parser';
 
 export class Handler implements ExceptionHadlder {
     /**
      * The errors object.
      *
      * @var {object}
-     *
-     **/
+     */
     protected errors: { [key: string]: any; } = {};
 
     /**
@@ -84,7 +84,7 @@ export class Handler implements ExceptionHadlder {
      * @return {void}
      */
     public record (errors: object): void {
-        this.errors = errors;
+        this.errors = _.map(errors, (error) => Parser.parse(error));
     }
 
     /**

@@ -1,8 +1,7 @@
 import { ErrorObject } from '@/interfaces/exceptions/error-object';
-import { Parser as ParserInterface } from '@/interfaces/exceptions/parser';
 import _ from 'lodash';
 
-export class Parser implements ParserInterface {
+export class Parser {
     /**
      * Parse the given error response.
      *
@@ -10,7 +9,7 @@ export class Parser implements ParserInterface {
      *
      * @return {ErrorObject|ErrorObject[]}
      */
-    public parse (error: ErrorObject): ErrorObject | ErrorObject[] {
+    public static parse (error: ErrorObject): ErrorObject | ErrorObject[] {
         if (!_.isArray(error.message)) {
             return error;
         }

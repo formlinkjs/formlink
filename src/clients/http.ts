@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios, { AxiosInstance, AxiosStatic } from 'axios';
 import { Http as HttpInterface } from '@/interfaces/clients/http';
+import { Http as HttpEnum } from '@/enums/http';
 
 export class Http implements HttpInterface {
     /**
@@ -10,11 +11,11 @@ export class Http implements HttpInterface {
      */
     public config: { [key: string]: any; } = {
         withCredentials: false,
-        responseType: 'json',
-        responseEncoding: 'utf8',
-        xsrfCookieName: 'XSRF-TOKEN',
-        xsrfHeaderName: 'X-XSRF-TOKEN',
-        maxRedirects: 21
+        responseType: HttpEnum.DEFAULT_RESPONSE_TYPE,
+        responseEncoding: HttpEnum.DEFAULT_RESPONSE_ENCODING,
+        xsrfCookieName: HttpEnum.XSRF_COOKIE_NAME,
+        xsrfHeaderName: HttpEnum.XSRF_HEADER_NAME,
+        maxRedirects: HttpEnum.MAX_REDIRECTS
     };
 
     /**
@@ -23,7 +24,7 @@ export class Http implements HttpInterface {
      * @var {object}
      */
     public headers: { [key: string]: any; } = {
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': HttpEnum.X_REQUESTED_WITH
     };
 
     /**
