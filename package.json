@@ -1,0 +1,29 @@
+{
+    "name": "formlink",
+    "private": true,
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "license": "MIT",
+    "type": "module",
+    "scripts": {
+        "build": "tsc && vite build",
+        "lint": "eslint --ext .ts,.js src",
+        "test": "vitest"
+    },
+    "dependencies": {
+        "axios": "^1.5.0",
+        "lodash": "^4.17.21"
+    },
+    "devDependencies": {
+        "@types/axios": "^0.14.0",
+        "@types/lodash": "^4.14.198",
+        "@typescript-eslint/eslint-plugin": "^6.7.2",
+        "@typescript-eslint/parser": "^6.7.2",
+        "eslint": "^8.49.0",
+        "eslint-plugin-mdx": "^2.2.0",
+        "typescript": "^5.2.2",
+        "vite": "^4.4.9",
+        "vite-plugin-dts": "^3.5.3",
+        "vitest": "^0.34.4"
+    }
+}
