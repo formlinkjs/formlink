@@ -4,6 +4,7 @@ export enum Http {
     DEFAULT_RESPONSE_TYPE = 'json',
     DEFAULT_TIMEOUT = 30000,
     DEFAULT_RESPONSE_ENCODING = 'utf8',
+    DEFAULT_CONTENT_TYPE = 'application/json',
     XSRF_COOKIE_NAME = 'XSRF-TOKEN',
     XSRF_HEADER_NAME = 'X-XSRF-TOKEN',
     X_REQUESTED_WITH = 'XMLHttpRequest',

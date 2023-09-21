@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Http } from './http';
+import { HttpOptions } from '@/interfaces/support/http-options';
 
 describe('Http', () => {
     let http: Http;
@@ -34,7 +35,7 @@ describe('Http', () => {
     });
 
     it('should merge and update configuration options', () => {
-        http.withOptions({ withCredentials: true });
+        http.withOptions({ withCredentials: true } as HttpOptions);
 
         expect(http.config.withCredentials).toBe(true);
     });
@@ -60,7 +61,7 @@ describe('Http', () => {
     it('should set the base URL in the configuration', () => {
         http.baseUrl('https://example.com/api');
 
-        expect(http.config.baseUrl).toBe('https://example.com/api');
+        expect(http.config['baseUrl']).toBe('https://example.com/api');
     });
 
     it('should not set the base URL if an empty string is provided', () => {

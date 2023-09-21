@@ -1,7 +1,9 @@
 import _ from 'lodash';
-import axios, { AxiosInstance, AxiosStatic } from 'axios';
+import axios, { AxiosInstance, AxiosStatic, CreateAxiosDefaults } from 'axios';
 import { Http as HttpInterface } from '@/interfaces/clients/http';
 import { Http as HttpEnum } from '@/enums/http';
+import { HttpOptions } from '@/interfaces/support/http-options';
+import { HttpHeaders } from '@/interfaces/support/http-headers';
 
 export class Http implements HttpInterface {
     /**
@@ -9,22 +11,22 @@ export class Http implements HttpInterface {
      *
      * @var {object}
      */
-    public config: { [key: string]: any; } = {
+    public config: HttpOptions = {
         withCredentials: false,
-        responseType: HttpEnum.DEFAULT_RESPONSE_TYPE,
-        responseEncoding: HttpEnum.DEFAULT_RESPONSE_ENCODING,
-        xsrfCookieName: HttpEnum.XSRF_COOKIE_NAME,
-        xsrfHeaderName: HttpEnum.XSRF_HEADER_NAME,
-        maxRedirects: HttpEnum.MAX_REDIRECTS
+        responseType: 'json',
+        responseEncoding: 'utf8',
+        xsrfCookieName: 'XSRF-TOKEN',
+        xsrfHeaderName: 'X-XSRF-TOKEN',
+        maxRedirects: HttpEnum.MAX_REDIRECTS as number
     };
 
     /**
      * The HTTP request headers.
      *
-     * @var {object}
+     * @var {HttpHeaders}
      */
-    public headers: { [key: string]: any; } = {
-        'X-Requested-With': HttpEnum.X_REQUESTED_WITH
+    public headers: HttpHeaders = {
+        'X-Requested-With': HttpEnum.X_REQUESTED_WITH as string
     };
 
     /**
@@ -48,11 +50,13 @@ export class Http implements HttpInterface {
     /**
      * Create new HTTP handler instance.
      *
-     * @param   {object}  config
+     * @param   {HttpOptions|undefined}  config
      *
-     * @return  {Http}
+     * @return  {AxiosInstance}
      */
-    public createInstance (config?: object): AxiosInstance {
+    public createInstance (
+        config?: CreateAxiosDefaults<HttpOptions>
+    ): AxiosInstance {
         config = _.merge(
             this.config,
             { headers: this.headers },
@@ -65,11 +69,11 @@ export class Http implements HttpInterface {
     /**
      * Set HTTP handler configurations.
      *
-     * @param   {object}  config
+     * @param   {HttpOptions}  config
      *
      * @return  {Http}
      */
-    public withOptions (config: object): Http {
+    public withOptions (config: HttpOptions): Http {
         _.merge(this.config, config);
 
         return this;
@@ -94,7 +98,10 @@ export class Http implements HttpInterface {
      * @return  {Http}
      */
     public contentType (type?: string): Http {
-        _.set(this.headers, 'Content-Type', type || 'application/json');
+        _.set(
+            this.headers, 'Content-Type',
+            type || HttpEnum.DEFAULT_CONTENT_TYPE as string
+        );
 
         return this;
     }
@@ -102,11 +109,11 @@ export class Http implements HttpInterface {
     /**
      * Set default base urls.
      *
-     * @param   {string}       url
+     * @param   {URL|string}       url
      *
      * @return  {Http}
      */
-    public baseUrl (url: string): Http {
+    public baseUrl (url?: URL | string): Http {
         if (!url) {
             return this;
         }
