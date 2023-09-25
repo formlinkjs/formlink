@@ -18,7 +18,7 @@
     "devDependencies": {
         "@types/axios": "^0.14.0",
         "@types/lodash": "^4.14.198",
-        "@types/node": "^20.6.3",
+        "@types/node": "^20.6.5",
         "@types/qs": "^6.9.8",
         "@typescript-eslint/eslint-plugin": "^6.7.2",
         "@typescript-eslint/parser": "^6.7.2",
