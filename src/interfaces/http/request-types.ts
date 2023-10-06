@@ -1,3 +1,3 @@
-import { RequestTypes as RequestTypesEnum } from '@/enums/request-types';
+import { Methods } from '@/enums/methods';
 
-export type RequestTypes = RequestTypesEnum;
+export type RequestTypes = Methods;

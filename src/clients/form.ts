@@ -8,12 +8,12 @@ import _ from 'lodash';
 import { guardAgainstReservedFieldName } from '@/support/field-name-validator';
 import { Http } from '@/clients/http';
 import { Http as HttpEnum } from '@/enums/http';
-import { RequestTypes } from '@/enums/request-types';
-import type { RequestTypes as RequestTypesType } from '@/interfaces/http/request-types';
+import { Methods } from '@/enums/methods';
 import { ErrorObject } from '@/interfaces/exceptions/error-object';
 import { hasFilesDeep } from '@/support/helpers';
 import { objectToFormData } from '@/support/form-data';
 import { ErrorRepsonse } from '@/interfaces/exceptions/error-response';
+import { RequestTypes } from '@/interfaces/http/request-types';
 
 export class Form implements FormInterface {
     /**
@@ -127,7 +127,7 @@ export class Form implements FormInterface {
         url: URL | string,
         config?: FormOptions
     ): Promise<any> {
-        return await this.submit(RequestTypes.GET, url, config);
+        return await this.submit(Methods.GET, url, config);
     }
 
     /**
@@ -142,7 +142,7 @@ export class Form implements FormInterface {
         url: URL | string,
         config?: FormOptions
     ): Promise<any> {
-        return await this.submit(RequestTypes.POST, url, config);
+        return await this.submit(Methods.POST, url, config);
     }
 
     /**
@@ -157,7 +157,7 @@ export class Form implements FormInterface {
         url: URL | string,
         config?: FormOptions
     ): Promise<any> {
-        return await this.submit(RequestTypes.PUT, url, config);
+        return await this.submit(Methods.PUT, url, config);
     }
 
     /**
@@ -172,7 +172,7 @@ export class Form implements FormInterface {
         url: URL | string,
         config?: FormOptions
     ): Promise<any> {
-        return await this.submit(RequestTypes.PATCH, url, config);
+        return await this.submit(Methods.PATCH, url, config);
     }
 
     /**
@@ -187,20 +187,20 @@ export class Form implements FormInterface {
         url: URL | string,
         config?: FormOptions
     ): Promise<any> {
-        return await this.submit(RequestTypes.DELETE, url, config);
+        return await this.submit(Methods.DELETE, url, config);
     }
 
     /**
      * Make given request type with currently attached data object to given endpoint.
      *
-     * @param   {RequestTypesType}  method
+     * @param   {RequestTypes}  method
      * @param   {URL|string}  url
      * @param   {object}  config
      *
      * @return  {Promise}
      */
     public async submit (
-        method: RequestTypesType,
+        method: RequestTypes,
         url: URL | string,
         config: FormOptions = this.options
     ): Promise<any> {
@@ -235,14 +235,14 @@ export class Form implements FormInterface {
     /**
      * Make a request to the given endpoint with the provided payload.
      *
-     * @param  {string}  method
+     * @param  {RequestTypes}  method
      * @param  {URL|string}  url
      * @param  {FormOptions}  config
      *
      * @return  {Promise}
      */
     protected makeRequest (
-        method: RequestTypesType,
+        method: RequestTypes,
         url: URL | string,
         config: FormOptions
     ): Promise<any> {
@@ -261,14 +261,14 @@ export class Form implements FormInterface {
     /**
      * Prepare the data object for the given request type.
      *
-     * @param   {RequestTypesType}  method
+     * @param   {RequestTypes}  method
      *
      * @return  {object}
      */
     protected prepareDataForMethod (
-        method: RequestTypesType
+        method: RequestTypes
     ): { [key: string]: any; } {
-        if (method === RequestTypes.GET) {
+        if (method === Methods.GET) {
             return { params: new URLSearchParams(this.data) };
         }
 
@@ -677,13 +677,13 @@ export class Form implements FormInterface {
      */
     protected validateRequestType (method: RequestTypes): void {
         const methods = [
-            RequestTypes.GET,
-            RequestTypes.POST,
-            RequestTypes.PUT,
-            RequestTypes.PATCH,
-            RequestTypes.DELETE,
-            RequestTypes.HEAD,
-            RequestTypes.OPTIONS
+            Methods.GET,
+            Methods.POST,
+            Methods.PUT,
+            Methods.PATCH,
+            Methods.DELETE,
+            Methods.HEAD,
+            Methods.OPTIONS
         ] as string[];
 
         if (!methods.includes(method)) {
