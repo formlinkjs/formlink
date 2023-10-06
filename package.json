@@ -1,6 +1,5 @@
 {
     "name": "@formlink/formlink",
-    "private": true,
     "version": "0.0.1",
     "main": "dist/index.js",
     "license": "MIT",
@@ -8,6 +7,9 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/formlinkjs/formlink.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
     },
     "scripts": {
         "build": "tsc && vite build",
