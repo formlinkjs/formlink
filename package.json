@@ -1,7 +1,7 @@
 {
     "name": "formlink",
     "private": true,
-    "version": "1.0.0",
+    "version": "0.0.1",
     "main": "dist/index.js",
     "license": "MIT",
     "type": "module",
