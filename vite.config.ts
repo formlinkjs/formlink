@@ -19,6 +19,6 @@ export default defineConfig({
     },
 
     plugins: [(dts({
-        outputDir: path.resolve(__dirname, './types')
+        outDir: path.resolve(__dirname, './types')
     }) as any)]
 });

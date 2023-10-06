@@ -1,0 +1,25 @@
+export declare enum ReservedFieldNames {
+    OPTIONS = "__options",
+    PAGE = "__page",
+    VALIDATE_REQUEST_TYPE = "__validateRequestType",
+    DATA = "data",
+    DELETE = "delete",
+    ERROR_FOR = "errorFor",
+    ERRORS_FOR = "errorsFor",
+    HAS_ERRORS = "hasErrors",
+    INITIAL = "initial",
+    IS_DIRTY = "isDirty",
+    ON_FAIL = "onFail",
+    ON_SUCCESS = "onSuccess",
+    PATCH = "patch",
+    POST = "post",
+    PROCESSING = "processing",
+    PUT = "put",
+    RECENTLY_SUCCESSFUL = "recentlySuccessful",
+    RESET = "reset",
+    SUBMIT = "submit",
+    SUCCESSFUL = "successful",
+    WITH_DATA = "withData",
+    WITH_OPTIONS = "withOptions"
+}
+//# sourceMappingURL=reserved-field-names.d.ts.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"error-object.d.ts","sourceRoot":"","sources":["../../../../src/interfaces/exceptions/error-object.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,WAAW,GAAG;IACtB;;;;OAIG;IACH,KAAK,EAAE,MAAM,CAAC;IAEd;;;;OAIG;IACH,OAAO,EAAE,MAAM,GAAG,MAAM,EAAE,CAAC;CAC9B,CAAC"}
