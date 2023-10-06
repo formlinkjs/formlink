@@ -1,5 +1,8 @@
+import { ErrorRepsonse } from '@/interfaces/exceptions/error-response';
 import { Handler } from './handler';
 import { describe, expect, test, beforeEach } from 'vitest';
+import { makeError } from '@/support/helpers';
+import { ErrorObject } from './error-object';
 
 describe('Handler', () => {
     let handler: Handler;
@@ -15,21 +18,34 @@ describe('Handler', () => {
 
     test('should return the first error message for a given field', () => {
         // Add test data to the handler's errors property
-        handler.record({
+        handler.record(makeError({
             field1: ['Error 1', 'Error 2'],
             field2: ['Error 3'],
-        });
+        }));
 
         expect(handler.get('field1')).toBe('Error 1');
         expect(handler.get('field2')).toBe('Error 3');
         expect(handler.get('nonexistentField')).toBeUndefined();
     });
 
-    test('should return all error messages for a given field', () => {
-        handler.record({
+    test('should return the first raw error object for a given field', () => {
+        // Add test data to the handler's errors property
+        handler.record(makeError({
             field1: ['Error 1', 'Error 2'],
             field2: ['Error 3'],
-        });
+        }));
+
+        expect(handler.getRaw('field1')?.message).toEqual(['Error 1', 'Error 2']);
+        expect(handler.getRaw('field1')?.message).toBeTypeOf('object');
+        expect(handler.getRaw('field2')?.message).toBe('Error 3');
+        expect(handler.getRaw('nonexistentField')?.message).toBeUndefined();
+    });
+
+    test('should return all error messages for a given field', () => {
+        handler.record(makeError({
+            field1: ['Error 1', 'Error 2'],
+            field2: ['Error 3'],
+        }));
 
         expect(handler.getAll('field1')).toEqual(['Error 1', 'Error 2']);
         expect(handler.getAll('field2')).toEqual(['Error 3']);
@@ -37,10 +53,10 @@ describe('Handler', () => {
     });
 
     test('should determine if a field has an error', () => {
-        handler.record({
+        handler.record(makeError({
             field1: ['Error 1', 'Error 2'],
             field2: ['Error 3'],
-        });
+        }));
 
         expect(handler.has('field1')).toBe(true);
         expect(handler.has('field2')).toBe(true);
@@ -48,23 +64,28 @@ describe('Handler', () => {
     });
 
     test('should flatten all error messages', () => {
-        handler.record({
+        handler.record(makeError({
             field1: ['Error 1', 'Error 2'],
             field2: ['Error 3'],
-        });
+        }));
 
         expect(handler.flatten()).toEqual(['Error 1', 'Error 2', 'Error 3']);
     });
 
-    test('should return all errors as an object', () => {
+    test('should return all errors as an array', () => {
         const errors = {
             field1: ['Error 1', 'Error 2'],
             field2: ['Error 3'],
         };
 
-        handler.record(errors);
+        handler.record(makeError(errors));
 
-        expect(handler.all()).toEqual(errors);
+        expect(handler.all().length).toBe(2);
+        expect(handler.all()[0]).toBeInstanceOf(ErrorObject);
+        expect(handler.all()[0].field).toBe('field1');
+        expect(handler.all()[0].message).toEqual(errors.field1);
+        expect(handler.all()[1].field).toBe('field2');
+        expect(handler.all()[1].message).toEqual(errors.field2[0]);
     });
 
     test('should record new error messages', () => {
@@ -73,16 +94,16 @@ describe('Handler', () => {
             field2: ['Another Error'],
         };
 
-        handler.record(newErrors);
+        handler.record(makeError(newErrors));
 
-        expect(handler.all()).toEqual(newErrors);
+        expect(handler.all().length).toEqual(2);
     });
 
     test('should clear error messages for a specific field', () => {
-        handler.record({
+        handler.record(makeError({
             field1: ['Error 1', 'Error 2'],
             field2: ['Error 3'],
-        });
+        }));
 
         handler.clear('field1');
 
@@ -92,25 +113,30 @@ describe('Handler', () => {
     });
 
     test('should clear all error messages', () => {
-        handler.record({
+        handler.record(makeError({
             field1: ['Error 1', 'Error 2'],
             field2: ['Error 3'],
-        });
+        }));
 
         handler.clear();
 
         expect(handler.any()).toBe(false);
-        expect(handler.all()).toEqual({});
+        expect(handler.all()).toEqual([]);
     });
 
     test('should determine if any error messages are available', () => {
         expect(handler.any()).toBe(false);
 
-        handler.record({
+        handler.record(makeError({
             field1: ['Error 1'],
-        });
+        }));
 
         expect(handler.any()).toBe(true);
     });
-});
 
+    test('should set and get the error status code', () => {
+        handler.setStatusCode(404);
+
+        expect(handler.getStatusCode()).toBe(404);
+    });
+});

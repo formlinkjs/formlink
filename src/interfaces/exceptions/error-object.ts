@@ -1,22 +1,15 @@
-export interface ErrorObject {
+export type ErrorObject = {
     /**
-     * The error message.
+     * The field the error belongs to.
      *
      * @var {string}
      */
-    error: string;
+    field: string;
 
     /**
      * The description of the error in detail.
      *
-     * @var {string}
+     * @var {string|string[]}
      */
     message: string | string[];
-
-    /**
-     * The error status code.
-     *
-     * @var {number}
-     */
-    statusCode: number;
-}
+};

@@ -1,7 +1,7 @@
-import { FormOptions } from '@/interfaces/support/form-options';
+import { FormOptions } from '@/interfaces/form/form-options';
 import { Handler as ErrorHandlerInterface } from '@/interfaces/exceptions/handler';
 import type { AxiosInstance, AxiosStatic } from 'axios';
-import type { RequestTypes as RequestTypesType } from '@/interfaces/support/request-types';
+import type { RequestTypes as RequestTypesType } from '@/interfaces/http/request-types';
 import { ErrorObject } from '@/interfaces/exceptions/error-object';
 
 export interface Form {

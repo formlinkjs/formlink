@@ -1,3 +1,6 @@
+import { ErrorObject } from './error-object';
+import { ErrorRepsonse } from './error-response';
+
 export interface Handler {
     /**
      * Get first error message for given field.
@@ -7,6 +10,15 @@ export interface Handler {
      * @return {string|undefined}
      */
     get (field: string): string | undefined;
+
+    /**
+     * Get first error message for given field.
+     *
+     * @param  {string} field
+     *
+     * @return {ErrorObject|undefined}
+     */
+    getRaw (field: string): ErrorObject | undefined;
 
     /**
      * Get all the error messages for the given field.
@@ -43,11 +55,11 @@ export interface Handler {
     /**
      * Record error messages object.
      *
-     * @param  {object} errors
+     * @param  {ErrorRepsonse} errors
      *
      * @return {void}
      */
-    record (errors: object): void;
+    record (errors: ErrorRepsonse): void;
 
     /**
      * Clear message of given error field.
@@ -57,6 +69,22 @@ export interface Handler {
      * @return {void}
      */
     clear (field?: string): void;
+
+    /**
+     * Set the status code for the error.
+     *
+     * @param  {number} status
+     *
+     * @return {void}
+     */
+    setStatusCode (status: number): void;
+
+    /**
+     * Get the status code for the error.
+     *
+     * @return {number}
+     */
+    getStatusCode (): number;
 
     /**
      * Determine if any error messages are available in all registered fields.

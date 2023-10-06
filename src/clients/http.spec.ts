@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Http } from './http';
-import { HttpOptions } from '@/interfaces/support/http-options';
+import { HttpOptions } from '@/interfaces/http/http-options';
 
 describe('Http', () => {
     let http: Http;

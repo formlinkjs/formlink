@@ -1,4 +1,8 @@
+import { ErrorData } from '@/interfaces/exceptions/error-data';
+import { ErrorRepsonse } from '@/interfaces/exceptions/error-response';
+import { Response } from '@/interfaces/http/response';
 import _ from 'lodash';
+import { Http } from '@/enums/http';
 
 /**
  * Determine if file data are available embedded into the data object.
@@ -42,4 +46,20 @@ export const hasFilesDeep = (object: { [key: string]: any; }): boolean => {
  */
 export const isFile = (object: any): boolean => {
     return object instanceof File || object instanceof FileList;
+};
+
+/**
+ * Create a new error response object.
+ *
+ * @param  {object} errors
+ *
+ * @return {ErrorRepsonse}
+ */
+export const makeError = (errors: { [key: string]: string[]; }): ErrorRepsonse => {
+    return {
+        response: {
+            status: Http.UNPROCESSABLE_ENTITY,
+            data: { errors } as ErrorData
+        } as Response
+    } as ErrorRepsonse;
 };

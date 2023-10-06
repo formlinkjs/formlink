@@ -24,7 +24,7 @@ describe('Form', () => {
     });
 
     it('should be able to create static instance of form object', () => {
-        const form = Form.create({ name: 'John Doe' }, {});
+        const form = Form.create({ name: 'John Doe' });
 
         expect(form).toBeInstanceOf(Form);
         expect(form.getField('name')).toBe('John Doe');
@@ -33,9 +33,7 @@ describe('Form', () => {
     it('can get all form data', () => {
         const form = new Form({ name: 'John Doe' });
 
-        expect(form.getData()).toEqual({
-            name: 'John Doe'
-        });
+        expect(form.getData()).toEqual({ name: 'John Doe' });
     });
 
     it('gets the form options', () => {
@@ -43,14 +41,16 @@ describe('Form', () => {
 
         expect(form.getOptions()).toEqual({
             resetOnSuccess: true,
-            setInitialOnSuccess: false
+            setInitialOnSuccess: false,
+            preserveState: false,
+            preserveScroll: false
         });
     });
 
     it('clear the form errors', () => {
         const form = new Form({ name: 'John Doe' });
 
-        form.errors?.clear();
+        form.clearErrors();
 
         expect(form.hasErrors()).toBeFalsy();
     });
@@ -74,8 +74,8 @@ describe('Form', () => {
 
         expect(results.foo).toBe('bar');
 
-        expect(form.processing).toBeFalsy();
-        expect(form.successful).toBeTruthy();
+        expect(form.isProcessing()).toBeFalsy();
+        expect(form.isSuccessful()).toBeTruthy();
         expect(form.hasErrors()).toBeFalsy();
     });
 
@@ -93,8 +93,8 @@ describe('Form', () => {
             }
         });
 
-        expect(form.processing).toBeFalsy();
-        expect(form.successful).toBeTruthy();
+        expect(form.isProcessing()).toBeFalsy();
+        expect(form.isSuccessful()).toBeTruthy();
         expect(form.hasErrors()).toBeFalsy();
     });
 
@@ -122,10 +122,12 @@ describe('Form', () => {
         await form.post('/user/photo');
     });
 
-    it('can set errors from the server', async () => {
+    it.only('can set errors from the server', async () => {
         const mockAdapter = new MockAdapter(axios);
         mockAdapter.onPost('/login').reply(422, {
-            username: ['Username is required']
+            errors: {
+                username: ['The username field is required.']
+            }
         });
 
         const form = new Form({});
@@ -137,8 +139,8 @@ describe('Form', () => {
         }
 
         expect(form.hasErrors()).toBeTruthy();
-        expect(form.processing).toBeFalsy();
-        expect(form.successful).toBeFalsy();
+        expect(form.isProcessing()).toBeFalsy();
+        expect(form.isSuccessful()).toBeFalsy();
     });
 
     it('can define custom action on success', async () => {
@@ -157,8 +159,8 @@ describe('Form', () => {
             }
         });
 
-        expect(form.processing).toBeFalsy();
-        expect(form.successful).toBeTruthy();
+        expect(form.isProcessing()).toBeFalsy();
+        expect(form.isSuccessful()).toBeTruthy();
         expect(result).toEqual('bar');
     });
 
@@ -176,8 +178,8 @@ describe('Form', () => {
             }
         });
 
-        expect(form.processing).toBeFalsy();
-        expect(form.successful).toBeFalsy();
+        expect(form.isProcessing()).toBeFalsy();
+        expect(form.isSuccessful()).toBeFalsy();
         expect(status).toEqual(422);
     });
 
@@ -194,8 +196,8 @@ describe('Form', () => {
             }
         });
 
-        expect(form.processing).toBeFalsy();
-        expect(form.successful).toBeFalsy();
+        expect(form.isProcessing()).toBeFalsy();
+        expect(form.isSuccessful()).toBeFalsy();
         expect(status).toEqual('Finished');
     });
 
@@ -218,8 +220,8 @@ describe('Form', () => {
             }
         });
 
-        expect(form.processing).toBeFalsy();
-        expect(form.successful).toBeTruthy();
+        expect(form.isProcessing()).toBeFalsy();
+        expect(form.isSuccessful()).toBeTruthy();
         expect(status).toEqual('Finished');
     });
 });

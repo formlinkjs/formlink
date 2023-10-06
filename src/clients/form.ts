@@ -1,5 +1,6 @@
 import { Form as FormInterface } from '@/interfaces/clients/form';
-import { FormOptions } from '@/interfaces/support/form-options';
+import { Response } from '@/interfaces/http/response';
+import { FormOptions } from '@/interfaces/form/form-options';
 import { Handler as ErrorHandler } from '@/exceptions/handler';
 import { Handler as ErrorHandlerInterface } from '@/interfaces/exceptions/handler';
 import type { AxiosInstance, AxiosStatic } from 'axios';
@@ -8,10 +9,11 @@ import { guardAgainstReservedFieldName } from '@/support/field-name-validator';
 import { Http } from '@/clients/http';
 import { Http as HttpEnum } from '@/enums/http';
 import { RequestTypes } from '@/enums/request-types';
-import type { RequestTypes as RequestTypesType } from '@/interfaces/support/request-types';
+import type { RequestTypes as RequestTypesType } from '@/interfaces/http/request-types';
 import { ErrorObject } from '@/interfaces/exceptions/error-object';
 import { hasFilesDeep } from '@/support/helpers';
 import { objectToFormData } from '@/support/form-data';
+import { ErrorRepsonse } from '@/interfaces/exceptions/error-response';
 
 export class Form implements FormInterface {
     /**
@@ -79,7 +81,7 @@ export class Form implements FormInterface {
      * Create a new Form instance.
      *
      * @param {object} data
-     * @param {FormOptions} options
+     * @param {FormOptions|undefined} options
      *
      * @return  {void}
      */
@@ -87,10 +89,15 @@ export class Form implements FormInterface {
         data: { [key: string]: any; } = {},
         options?: FormOptions
     ) {
-        this.withData(data)
-            .withOptions(options)
-            .setHttpHandler(options?.http)
-            .setErrorHandler(options?.errorHandler);
+        this.withData(data).withOptions(options);
+
+        if (options?.http) {
+            this.setHttpHandler(options.http);
+        }
+
+        if (options?.errorHandler) {
+            this.setErrorHandler(options.errorHandler);
+        }
     }
 
     /**
@@ -118,7 +125,7 @@ export class Form implements FormInterface {
      */
     public async get (
         url: URL | string,
-        config: FormOptions
+        config?: FormOptions
     ): Promise<any> {
         return await this.submit(RequestTypes.GET, url, config);
     }
@@ -133,7 +140,7 @@ export class Form implements FormInterface {
      */
     public async post (
         url: URL | string,
-        config: FormOptions
+        config?: FormOptions
     ): Promise<any> {
         return await this.submit(RequestTypes.POST, url, config);
     }
@@ -148,7 +155,7 @@ export class Form implements FormInterface {
      */
     public async put (
         url: URL | string,
-        config: FormOptions
+        config?: FormOptions
     ): Promise<any> {
         return await this.submit(RequestTypes.PUT, url, config);
     }
@@ -163,7 +170,7 @@ export class Form implements FormInterface {
      */
     public async patch (
         url: URL | string,
-        config: FormOptions
+        config?: FormOptions
     ): Promise<any> {
         return await this.submit(RequestTypes.PATCH, url, config);
     }
@@ -178,7 +185,7 @@ export class Form implements FormInterface {
      */
     public async delete (
         url: URL | string,
-        config: FormOptions
+        config?: FormOptions
     ): Promise<any> {
         return await this.submit(RequestTypes.DELETE, url, config);
     }
@@ -230,7 +237,7 @@ export class Form implements FormInterface {
      *
      * @param  {string}  method
      * @param  {URL|string}  url
-     * @param  {object}  config
+     * @param  {FormOptions}  config
      *
      * @return  {Promise}
      */
@@ -244,7 +251,7 @@ export class Form implements FormInterface {
                 .request(_.merge({
                     url: url instanceof URL ? url.toString() : url,
                     method: method.toLowerCase(),
-                    ...config
+                    ...{ ...this.options, ...config }
                 }, this.prepareDataForMethod(method)))
                 .then((response: any) => resolve(response))
                 .catch((error: any) => reject(error));
@@ -275,11 +282,11 @@ export class Form implements FormInterface {
     /**
      * Actions to be performed on successful request response.
      *
-     * @param   {object}  response
+     * @param   {Response}  response
      *
      * @return  {object}
      */
-    protected onSuccess (response: object): object {
+    protected onSuccess (response: Response): object {
         this.processing = false;
 
         if (!this.hasErrors()) {
@@ -289,7 +296,7 @@ export class Form implements FormInterface {
             setTimeout(() => (this.recentlySuccessful = false), 2000);
         }
 
-        if (_.get(this.options, 'resetOnSuccess')) {
+        if (_.get(this.options, 'resetOnSuccess', false)) {
             this.reset();
         } else if (_.get(this.options, 'setInitialOnSuccess')) {
             this.setInitialValues(this.getData());
@@ -301,14 +308,13 @@ export class Form implements FormInterface {
     /**
      * Actions to be performed on failed request attempt.
      *
-     * @param   {any}  error
+     * @param   {ErrorRepsonse|any}  error
      *
      * @return  {void}
      */
-    protected onFail (error: any): void {
+    protected onFail (error: ErrorRepsonse | any): void {
         if (
-            error !== null
-            && error !== undefined
+            (error !== null || error !== undefined)
             && !_.has(error, 'response')
         ) {
             this.resetStatus();
@@ -316,7 +322,12 @@ export class Form implements FormInterface {
             throw error;
         }
 
-        this.errorHandler?.record(_.get(error, 'response'));
+        const errorHandler = this.getErrorHandler();
+        errorHandler.setStatusCode(error.response.status);
+
+        if (error.response.data) {
+            errorHandler.record(error);
+        }
 
         this.resetStatus();
     }
@@ -453,11 +464,11 @@ export class Form implements FormInterface {
     /**
      * Set the default HttpHandler instance to use for form submission.
      *
-     * @param   {AxiosStatic|undefiend}  http
+     * @param   {AxiosStatic}  http
      *
      * @return  {Form}
      */
-    public setHttpHandler (http?: AxiosStatic): Form {
+    public setHttpHandler (http: AxiosStatic): Form {
         this.http = this.createHttpHandler(http);
 
         return this;
@@ -469,7 +480,11 @@ export class Form implements FormInterface {
      * @return  {AxiosInstance}
      */
     public getHttpHandler (): AxiosInstance {
-        return this.http || this.createHttpHandler();
+        if (!this.http) {
+            this.http = this.createHttpHandler();
+        }
+
+        return this.http;
     }
 
     /**
@@ -479,10 +494,23 @@ export class Form implements FormInterface {
      *
      * @return  {Form}
      */
-    public setErrorHandler (errorHandler?: ErrorHandlerInterface): Form {
-        this.errorHandler = errorHandler || new ErrorHandler();
+    public setErrorHandler (errorHandler: ErrorHandlerInterface): Form {
+        this.errorHandler = errorHandler;
 
         return this;
+    }
+
+    /**
+     * Get the default ErrorHandler instance.
+     *
+     * @return  {ErrorHandlerInterface}
+     */
+    public getErrorHandler (): ErrorHandlerInterface {
+        if (!this.errorHandler) {
+            this.errorHandler = new ErrorHandler();
+        }
+
+        return this.errorHandler;
     }
 
     /**
@@ -559,7 +587,7 @@ export class Form implements FormInterface {
      * @return  {string|undefined}
      */
     public error (field: string): string | undefined {
-        return this.errorHandler?.get(field);
+        return this.errorHandler?.get(field)?.toString();
     }
 
     /**
@@ -569,6 +597,15 @@ export class Form implements FormInterface {
      */
     public allErrors (): ErrorObject[] {
         return this.errorHandler?.flatten() || [];
+    }
+
+    /**
+     * Clear the error message for the given form input.
+     *
+     * @return  {void}
+     */
+    public clearErrors (): void {
+        this.errorHandler?.clear();
     }
 
     /**

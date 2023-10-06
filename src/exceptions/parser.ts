@@ -1,29 +1,26 @@
-import { ErrorObject } from '@/interfaces/exceptions/error-object';
+import { ErrorObject } from './error-object';
+import { ErrorObject as ErrorObjectType } from '@/interfaces/exceptions/error-object';
+import { ErrorData } from '@/interfaces/exceptions/error-data';
 import _ from 'lodash';
 
 export class Parser {
     /**
      * Parse the given error response.
      *
-     * @param  {ErrorObject} error
+     * @param  {ErrorData} errors
      *
-     * @return {ErrorObject|ErrorObject[]}
+     * @return {ErrorObjectType[]}
      */
-    public static parse (error: ErrorObject): ErrorObject | ErrorObject[] {
-        if (!_.isArray(error.message)) {
-            return error;
-        }
+    public static parse (errors: ErrorData): ErrorObjectType[] {
+        const paresedErrors: ErrorObjectType[] = [];
 
-        const errors: ErrorObject[] = [];
-
-        _.forEach(error.message, (message) => {
-            errors.push({
-                error: error.error,
-                message,
-                statusCode: error.statusCode
-            });
+        _.forEach(errors.errors, (messages, field) => {
+            paresedErrors.push(new ErrorObject(
+                field,
+                messages.length > 1 ? messages : _.first(messages) || ''
+            ));
         });
 
-        return errors;
+        return paresedErrors;
     }
 }

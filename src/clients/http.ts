@@ -2,8 +2,8 @@ import _ from 'lodash';
 import axios, { AxiosInstance, AxiosStatic, CreateAxiosDefaults } from 'axios';
 import { Http as HttpInterface } from '@/interfaces/clients/http';
 import { Http as HttpEnum } from '@/enums/http';
-import { HttpOptions } from '@/interfaces/support/http-options';
-import { HttpHeaders } from '@/interfaces/support/http-headers';
+import { HttpOptions } from '@/interfaces/http/http-options';
+import { HttpHeaders } from '@/interfaces/http/http-headers';
 
 export class Http implements HttpInterface {
     /**
@@ -13,10 +13,10 @@ export class Http implements HttpInterface {
      */
     public config: HttpOptions = {
         withCredentials: false,
-        responseType: 'json',
-        responseEncoding: 'utf8',
-        xsrfCookieName: 'XSRF-TOKEN',
-        xsrfHeaderName: 'X-XSRF-TOKEN',
+        responseType: HttpEnum.DEFAULT_RESPONSE_TYPE as string,
+        responseEncoding: HttpEnum.DEFAULT_RESPONSE_ENCODING as string,
+        xsrfCookieName: HttpEnum.XSRF_COOKIE_NAME as string,
+        xsrfHeaderName: HttpEnum.XSRF_HEADER_NAME as string,
         maxRedirects: HttpEnum.MAX_REDIRECTS as number
     };
 
@@ -39,7 +39,7 @@ export class Http implements HttpInterface {
     /**
      * Create new HTTP handler instance.
      *
-     * @param   {AxiosStatic}  client
+     * @param   {AxiosStatic|undefined}  client
      *
      * @return  {void}
      */

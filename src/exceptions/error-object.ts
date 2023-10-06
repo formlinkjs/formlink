@@ -1,43 +1,43 @@
-import { ErrorObject as ErrorObjectInterface } from '../interfaces/exceptions/error-object';
+import _ from 'lodash';
+import { ErrorObject as ErrorObjectType } from '../interfaces/exceptions/error-object';
 
-export class ErrorObject implements ErrorObjectInterface {
+export class ErrorObject implements ErrorObjectType {
     /**
-     * The error message.
+     * The field the error belongs to.
      *
      * @var {string}
      */
-    public error: string;
+    public field: string;
 
     /**
      * The description of the error in detail.
      *
-     * @var {string}
+     * @var {string|string[]}
      */
     public message: string | string[];
 
     /**
-     * The error status code.
-     *
-     * @var {number}
-     */
-    public statusCode: number;
-
-    /**
      * Create a new error object instance.
      *
-     * @param {string} error
+     * @param {string} field
      * @param {string|string[]} message
-     * @param {number} statusCode
      *
      * @return {void}
      */
     constructor (
-        error: string,
-        message: string | string[],
-        statusCode: number
+        field: string,
+        message: string | string[]
     ) {
-        this.error = error;
+        this.field = field;
         this.message = message;
-        this.statusCode = statusCode;
+    }
+
+    /**
+     * Represent the error object as a string by returning the error message.
+     *
+     * @return {string}
+     */
+    public toString (): string {
+        return _.first(this.message) || '';
     }
 }

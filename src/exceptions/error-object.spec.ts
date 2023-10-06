@@ -5,7 +5,7 @@ describe('ErrorObject', () => {
     let error: ErrorObject;
 
     beforeEach(() => {
-        error = new ErrorObject('foo', 'bar', 400);
+        error = new ErrorObject('foo', 'bar');
     });
 
     it('should create an instance of ErrorObject with default values', () => {

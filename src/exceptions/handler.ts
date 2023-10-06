@@ -1,24 +1,37 @@
 import _ from 'lodash';
 import { Handler as ExceptionHadlder } from '@/interfaces/exceptions/handler';
 import { Parser } from './parser';
+import { ErrorObject } from '@/interfaces/exceptions/error-object';
+import { ErrorRepsonse } from '@/interfaces/exceptions/error-response';
+import { Http } from '@/enums/http';
+import { ErrorData } from '@/interfaces/exceptions/error-data';
 
 export class Handler implements ExceptionHadlder {
     /**
-     * The errors object.
+     * The errors array.
      *
-     * @var {object}
+     * @var {ErrorObject[]}
      */
-    protected errors: { [key: string]: any; } = {};
+    protected errors: ErrorObject[] = [];
+
+    /**
+     * The error status code.
+     *
+     * @var {number}
+     */
+    public status: number = Http.UNPROCESSABLE_ENTITY;
 
     /**
      * Create new errors handler instance.
      *
-     * @param  {object} errors
+     * @param  {ErrorRepsonse} errors
      *
      * @return {void}
      */
-    constructor (errors: { [key: string]: any; } = {}) {
-        this.errors = errors;
+    constructor (errors?: ErrorRepsonse) {
+        if (errors) {
+            this.errors = this.parseErrors(errors);
+        }
     }
 
     /**
@@ -29,7 +42,27 @@ export class Handler implements ExceptionHadlder {
      * @return {string|undefined}
      */
     public get (field: string): string | undefined {
-        return _.get(this.errors, `${field}.0`, undefined);
+        const error = this.getRaw(field);
+
+        if (error?.message && typeof error.message !== 'string') {
+            return _.first(error.message) || '';
+        }
+
+        return error?.message as string;
+    }
+
+    /**
+     * Get first error message for given field.
+     *
+     * @param  {string} field
+     *
+     * @return {ErrorObject|undefined}
+     */
+    public getRaw (field: string): ErrorObject | undefined {
+        return _.find(
+            this.errors,
+            (error: ErrorObject) => error.field === field
+        );
     }
 
     /**
@@ -40,9 +73,11 @@ export class Handler implements ExceptionHadlder {
      * @return {string[]}
      */
     public getAll (field: string): string[] {
-        const result = this.errors[field] || [];
+        const fieldError = _.find(this.errors, (error: ErrorObject) => error.field === field);
 
-        return _.isArray(result) ? result : _.castArray(result);
+        return typeof fieldError?.message === 'string'
+            ? [fieldError.message]
+            : fieldError?.message || [];
     }
 
     /**
@@ -53,38 +88,64 @@ export class Handler implements ExceptionHadlder {
      * @return {boolean}
      */
     public has (field: string): boolean {
-        return _.has(this.errors, field);
+        return Boolean(_.find(
+            this.errors,
+            (error: ErrorObject) => error.field === field)
+        );
     }
 
     /**
      * Get all the errors in a flat array.
      *
-     * @return {any[]}
+     * @return {string[]}
      */
-    public flatten (): any[] {
-        return _.reduce(_.values(this.errors), (carry, element) => {
-            return carry.concat(element);
-        }, []);
+    public flatten (): string[] {
+        const errorMessages: string[] = [];
+
+        _.forEach(this.errors, (error: ErrorObject) => {
+            if (typeof error.message !== 'string') {
+                errorMessages.push(...error.message);
+            } else {
+                errorMessages.push(error.message as string);
+            }
+        });
+
+        return errorMessages;
     }
 
     /**
      * Get all the errors.
      *
-     * @return {object}
+     * @return {ErrorObject[]}
      */
-    public all (): object {
+    public all (): ErrorObject[] {
         return this.errors;
     }
 
     /**
      * Record error messages object.
      *
-     * @param  {object} errors
+     * @param  {ErrorRepsonse} errors
      *
      * @return {void}
      */
-    public record (errors: object): void {
-        this.errors = _.map(errors, (error) => Parser.parse(error));
+    public record (errors: ErrorRepsonse): void {
+        this.errors = this.parseErrors(errors);
+    }
+
+    /**
+     * Parse errors object.
+     *
+     * @param  {object} errors
+     *
+     * @return {object}
+     */
+    public parseErrors (
+        errors: ErrorRepsonse
+    ): ErrorObject[] {
+        this.status = errors.response.status;
+
+        return Parser.parse(errors.response.data as ErrorData);
     }
 
     /**
@@ -96,12 +157,15 @@ export class Handler implements ExceptionHadlder {
      */
     public clear (field?: string): void {
         if (field) {
-            _.unset(this.errors, field);
+            this.errors = _.filter(
+                this.errors,
+                (error: ErrorObject) => error.field !== field
+            );
 
             return;
         }
 
-        this.errors = {};
+        this.errors = [];
     }
 
     /**
@@ -110,10 +174,26 @@ export class Handler implements ExceptionHadlder {
      * @return {boolean}
      */
     public any (): boolean {
-        if (!this.errors) {
-            return true;
-        }
+        return Boolean(this.errors.length);
+    }
 
-        return Boolean(_.keys(this.errors).length > 0);
+    /**
+     * Set the status code for the error.
+     *
+     * @param  {number} status
+     *
+     * @return {void}
+     */
+    public setStatusCode (status: number): void {
+        this.status = status;
+    }
+
+    /**
+     * Get the status code for the error.
+     *
+     * @return {number}
+     */
+    public getStatusCode (): number {
+        return this.status;
     }
 }
