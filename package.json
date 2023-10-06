@@ -1,10 +1,14 @@
 {
-    "name": "formlink",
+    "name": "@formlink/formlink",
     "private": true,
     "version": "0.0.1",
     "main": "dist/index.js",
     "license": "MIT",
     "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/formlinkjs/formlink.git"
+    },
     "scripts": {
         "build": "tsc && vite build",
         "lint": "eslint --ext .ts,.js src",
