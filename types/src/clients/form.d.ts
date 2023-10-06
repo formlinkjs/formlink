@@ -1,64 +1,58 @@
 import { Form as FormInterface } from '../interfaces/clients/form';
-import { Response } from '../interfaces/http/response';
 import { FormOptions } from '../interfaces/form/form-options';
 import { Handler as ErrorHandlerInterface } from '../interfaces/exceptions/handler';
 import type { AxiosInstance, AxiosStatic } from 'axios';
 import { ErrorObject } from '../interfaces/exceptions/error-object';
-import { ErrorRepsonse } from '../interfaces/exceptions/error-response';
 import { RequestTypes } from '../interfaces/http/request-types';
 export declare class Form implements FormInterface {
     /**
      * All initial values after original data has beeen changed.
      *
-     * @var {object}
+     * @var {Record<string, any>}
      */
-    protected initial: {
-        [key: string]: any;
-    };
+    private initial;
     /**
      * All form input data.
      *
-     * @var {object}
+     * @var {Record<string, any>}
      */
-    protected data: {
-        [key: string]: any;
-    };
+    data: Record<string, any>;
     /**
      * List of options to apply to frontend throughout the form submission process.
      *
      * @var {FormOptions}
      */
-    protected options: FormOptions;
+    private options;
     /**
      * The form error handler instance.
      *
      * @var {ErrorHandlerInterface}
      */
-    protected errorHandler?: ErrorHandlerInterface;
+    private errorHandler?;
     /**
      * Indicates if the form has been submitted and is currently being processed.
      *
      * @var {boolean}
      */
-    protected processing: boolean;
+    private processing;
     /**
      * Indicate if the form submittion is completed and was successful.
      *
      * @var {boolean}
      */
-    protected successful: boolean;
+    private successful;
     /**
      * Indicate if the form was recently submitted, completed and was successful.
      *
      * @var {boolean}
      */
-    protected recentlySuccessful: boolean;
+    private recentlySuccessful;
     /**
      * The default HTTP handler instance to use for form submission.
      *
      * @var {AxiosInstance|undefined}
      */
-    protected http?: AxiosInstance;
+    private http?;
     /**
      * Create a new Form instance.
      *
@@ -67,9 +61,7 @@ export declare class Form implements FormInterface {
      *
      * @return  {void}
      */
-    constructor(data?: {
-        [key: string]: any;
-    }, options?: FormOptions);
+    constructor(data?: Record<string, any>, options?: FormOptions);
     /**
      * Create static instance of form object.
      *
@@ -145,7 +137,7 @@ export declare class Form implements FormInterface {
      *
      * @return  {Promise}
      */
-    protected makeRequest(method: RequestTypes, url: URL | string, config: FormOptions): Promise<any>;
+    private makeRequest;
     /**
      * Prepare the data object for the given request type.
      *
@@ -153,9 +145,7 @@ export declare class Form implements FormInterface {
      *
      * @return  {object}
      */
-    protected prepareDataForMethod(method: RequestTypes): {
-        [key: string]: any;
-    };
+    private prepareDataForMethod;
     /**
      * Actions to be performed on successful request response.
      *
@@ -163,7 +153,7 @@ export declare class Form implements FormInterface {
      *
      * @return  {object}
      */
-    protected onSuccess(response: Response): object;
+    private onSuccess;
     /**
      * Actions to be performed on failed request attempt.
      *
@@ -171,7 +161,7 @@ export declare class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected onFail(error: ErrorRepsonse | any): void;
+    private onFail;
     /**
      * Assign data to current instance of form object.
      *
@@ -189,13 +179,11 @@ export declare class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected setInitialValues(values: {
-        [key: string]: any;
-    }): void;
+    private setInitialValues;
     /**
      * Assign options to be used by current instance of form object.
      *
-     * @param   {FormOptions}  options
+     * @param   {FormOptions|undefined}  options
      *
      * @return  {Form}
      */
@@ -203,11 +191,17 @@ export declare class Form implements FormInterface {
     /**
      * Get all data as object assgined to form object.
      *
-     * @return  {object}
+     * @return  {Record<string, any>}
      */
-    getData(): {
-        [key: string]: any;
-    };
+    getData(): Record<string, any>;
+    /**
+     * Get all data as object assgined to form object.
+     *
+     * @param   {function}  callback
+     *
+     * @return  {FormInterface}
+     */
+    transform(callback: (data: Record<string, any>) => void): FormInterface;
     /**
      * Save current data to initials object and empty current data registry.
      *
@@ -219,7 +213,7 @@ export declare class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected resetStatus(): void;
+    private resetStatus;
     /**
      * Get the value of the specified field.
      *
@@ -288,19 +282,19 @@ export declare class Form implements FormInterface {
      *
      * @return  {AxiosInstance}
      */
-    protected createHttpHandler(client?: AxiosStatic): AxiosInstance;
+    private createHttpHandler;
     /**
      * Determine if the data attached contains file data.
      *
      * @return  {boolean}
      */
-    protected hasFiles(): boolean;
+    private hasFiles;
     /**
      * Set status properties to indicate form submission in progress.
      *
      * @return  {void}
      */
-    protected startProcessing(): void;
+    private startProcessing;
     /**
      * Determine if the inputs bound to form have any related error messages.
      *
@@ -384,6 +378,6 @@ export declare class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected validateRequestType(method: RequestTypes): void;
+    private validateRequestType;
 }
 //# sourceMappingURL=form.d.ts.map

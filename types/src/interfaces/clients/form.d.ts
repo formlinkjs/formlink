@@ -1,9 +1,16 @@
-import { FormOptions } from '../../interfaces/form/form-options';
-import { Handler as ErrorHandlerInterface } from '../../interfaces/exceptions/handler';
-import type { AxiosInstance, AxiosStatic } from 'axios';
-import type { RequestTypes as RequestTypesType } from '../../interfaces/http/request-types';
+import { FormOptions } from '../form/form-options';
+import { RequestTypes } from '../../interfaces/http/request-types';
+import type { AxiosStatic } from 'axios';
+import { AxiosInstance } from 'axios';
 import { ErrorObject } from '../../interfaces/exceptions/error-object';
+import { Handler as ErrorHandler } from '../../interfaces/exceptions/handler';
 export interface Form {
+    /**
+     * All form input data.
+     *
+     * @var {Record<string, any>}
+     */
+    data: Record<string, any>;
     /**
      * Make GET request with currently attached data object to given endpoint.
      *
@@ -52,27 +59,25 @@ export interface Form {
     /**
      * Make given request type with currently attached data object to given endpoint.
      *
-     * @param   {RequestTypesType}  method
+     * @param   {RequestTypes}  method
      * @param   {URL|string}  url
      * @param   {object}  config
      *
      * @return  {Promise}
      */
-    submit(method: RequestTypesType, url: URL | string, config?: FormOptions): Promise<any>;
+    submit(method: RequestTypes, url: URL | string, config: FormOptions): Promise<any>;
     /**
      * Assign data to current instance of form object.
      *
-     * @param   {object}  data
+     * @param   {Record<string, any>}  data
      *
      * @return  {Form}
      */
-    withData(data: {
-        [key: string]: any;
-    }): Form;
+    withData(data: Record<string, any>): Form;
     /**
      * Assign options to be used by current instance of form object.
      *
-     * @param   {FormOptions}  options
+     * @param   {FormOptions|undefined}  options
      *
      * @return  {Form}
      */
@@ -80,11 +85,17 @@ export interface Form {
     /**
      * Get all data as object assgined to form object.
      *
-     * @return  {object}
+     * @return  {Record<string, any>}
      */
-    getData(): {
-        [key: string]: any;
-    };
+    getData(): Record<string, any>;
+    /**
+     * Get all data as object assgined to form object.
+     *
+     * @param   {function}  callback
+     *
+     * @return  {Form}
+     */
+    transform(callback: (data: Record<string, any>) => void): Form;
     /**
      * Save current data to initials object and empty current data registry.
      *
@@ -117,21 +128,19 @@ export interface Form {
     /**
      * Set custom options.
      *
-     * @param   {string}  options
+     * @param   {Partial<FormOptions>}  options
      *
      * @return  {void}
      */
-    setOptions(options: {
-        [key: string]: any;
-    }): void;
+    setOptions(options: Partial<FormOptions>): void;
     /**
      * Set the default HttpHandler instance to use for form submission.
      *
-     * @param   {AxiosStatic|undefiend}  http
+     * @param   {AxiosStatic}  http
      *
      * @return  {Form}
      */
-    setHttpHandler(http?: AxiosStatic): Form;
+    setHttpHandler(http: AxiosStatic): Form;
     /**
      * Get the default HttpHandler instance.
      *
@@ -141,11 +150,17 @@ export interface Form {
     /**
      * Create the default HttpHandler instance.
      *
-     * @param {ErrorHandlerInterface} errorHandler
+     * @param {ErrorHandler} errorHandler
      *
      * @return  {Form}
      */
-    setErrorHandler(errorHandler?: ErrorHandlerInterface): Form;
+    setErrorHandler(errorHandler: ErrorHandler): Form;
+    /**
+     * Get the default ErrorHandler instance.
+     *
+     * @return  {ErrorHandler}
+     */
+    getErrorHandler(): ErrorHandler;
     /**
      * Determine if the inputs bound to form have any related error messages.
      *
@@ -174,6 +189,12 @@ export interface Form {
      * @return  {ErrorObject[]}
      */
     allErrors(): ErrorObject[];
+    /**
+     * Clear the error message for the given form input.
+     *
+     * @return  {void}
+     */
+    clearErrors(): void;
     /**
      * Determine if the form submission is still in progress.
      *

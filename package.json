@@ -23,7 +23,7 @@
         "@typescript-eslint/eslint-plugin": "^6.7.4",
         "@typescript-eslint/parser": "^6.7.4",
         "axios-mock-adapter": "^1.22.0",
-        "eslint": "^8.50.0",
+        "eslint": "^8.51.0",
         "eslint-plugin-mdx": "^2.2.0",
         "typescript": "^5.2.2",
         "vite": "^4.4.11",

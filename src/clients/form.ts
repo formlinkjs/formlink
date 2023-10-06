@@ -19,23 +19,23 @@ export class Form implements FormInterface {
     /**
      * All initial values after original data has beeen changed.
      *
-     * @var {object}
+     * @var {Record<string, any>}
      */
-    protected initial: { [key: string]: any; } = {};
+    private initial: Record<string, any> = {};
 
     /**
      * All form input data.
      *
-     * @var {object}
+     * @var {Record<string, any>}
      */
-    protected data: { [key: string]: any; } = {};
+    public data: Record<string, any> = {};
 
     /**
      * List of options to apply to frontend throughout the form submission process.
      *
      * @var {FormOptions}
      */
-    protected options: FormOptions = {
+    private options: FormOptions = {
         resetOnSuccess: true,
         setInitialOnSuccess: false,
         preserveState: false,
@@ -47,35 +47,35 @@ export class Form implements FormInterface {
      *
      * @var {ErrorHandlerInterface}
      */
-    protected errorHandler?: ErrorHandlerInterface;
+    private errorHandler?: ErrorHandlerInterface;
 
     /**
      * Indicates if the form has been submitted and is currently being processed.
      *
      * @var {boolean}
      */
-    protected processing = false;
+    private processing = false;
 
     /**
      * Indicate if the form submittion is completed and was successful.
      *
      * @var {boolean}
      */
-    protected successful = false;
+    private successful = false;
 
     /**
      * Indicate if the form was recently submitted, completed and was successful.
      *
      * @var {boolean}
      */
-    protected recentlySuccessful = false;
+    private recentlySuccessful = false;
 
     /**
      * The default HTTP handler instance to use for form submission.
      *
      * @var {AxiosInstance|undefined}
      */
-    protected http?: AxiosInstance;
+    private http?: AxiosInstance;
 
     /**
      * Create a new Form instance.
@@ -86,7 +86,7 @@ export class Form implements FormInterface {
      * @return  {void}
      */
     constructor (
-        data: { [key: string]: any; } = {},
+        data: Record<string, any> = {},
         options?: FormOptions
     ) {
         this.withData(data).withOptions(options);
@@ -241,7 +241,7 @@ export class Form implements FormInterface {
      *
      * @return  {Promise}
      */
-    protected makeRequest (
+    private makeRequest (
         method: RequestTypes,
         url: URL | string,
         config: FormOptions
@@ -265,7 +265,7 @@ export class Form implements FormInterface {
      *
      * @return  {object}
      */
-    protected prepareDataForMethod (
+    private prepareDataForMethod (
         method: RequestTypes
     ): { [key: string]: any; } {
         if (method === Methods.GET) {
@@ -286,7 +286,7 @@ export class Form implements FormInterface {
      *
      * @return  {object}
      */
-    protected onSuccess (response: Response): object {
+    private onSuccess (response: Response): object {
         this.processing = false;
 
         if (!this.hasErrors()) {
@@ -312,7 +312,7 @@ export class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected onFail (error: ErrorRepsonse | any): void {
+    private onFail (error: ErrorRepsonse | any): void {
         if (
             (error !== null || error !== undefined)
             && !_.has(error, 'response')
@@ -323,7 +323,10 @@ export class Form implements FormInterface {
         }
 
         const errorHandler = this.getErrorHandler();
-        errorHandler.setStatusCode(error.response.status);
+
+        errorHandler.setStatusCode(
+            error.response?.status || HttpEnum.INTERNAL_SERVER_ERROR
+        );
 
         if (error.response.data) {
             errorHandler.record(error);
@@ -362,7 +365,7 @@ export class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected setInitialValues (values: { [key: string]: any; }): void {
+    private setInitialValues (values: { [key: string]: any; }): void {
         this.initial = {};
 
         _.merge(this.initial, values);
@@ -371,7 +374,7 @@ export class Form implements FormInterface {
     /**
      * Assign options to be used by current instance of form object.
      *
-     * @param   {FormOptions}  options
+     * @param   {FormOptions|undefined}  options
      *
      * @return  {Form}
      */
@@ -384,16 +387,29 @@ export class Form implements FormInterface {
     /**
      * Get all data as object assgined to form object.
      *
-     * @return  {object}
+     * @return  {Record<string, any>}
      */
-    public getData (): { [key: string]: any; } {
-        const data: { [key: string]: any; } = {};
+    public getData (): Record<string, any> {
+        const data: Record<string, any> = {};
 
         _.forEach(this.initial, (_value: any, key: string) => {
             data[key] = this.data[key];
         });
 
         return data;
+    }
+
+    /**
+     * Get all data as object assgined to form object.
+     *
+     * @param   {function}  callback
+     *
+     * @return  {FormInterface}
+     */
+    public transform (callback: (data: Record<string, any>) => void): FormInterface {
+        callback(this.getData());
+
+        return this;
     }
 
     /**
@@ -412,7 +428,7 @@ export class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected resetStatus (): void {
+    private resetStatus (): void {
         this.processing = false;
         this.successful = false;
         this.recentlySuccessful = false;
@@ -520,7 +536,7 @@ export class Form implements FormInterface {
      *
      * @return  {AxiosInstance}
      */
-    protected createHttpHandler (client?: AxiosStatic): AxiosInstance {
+    private createHttpHandler (client?: AxiosStatic): AxiosInstance {
         return (new Http(client))
             .acceptJson()
             .contentType(HttpEnum.DEFAULT_CONTENT_TYPE)
@@ -534,7 +550,7 @@ export class Form implements FormInterface {
      *
      * @return  {boolean}
      */
-    protected hasFiles (): boolean {
+    private hasFiles (): boolean {
         for (const property in this.initial) {
             if (hasFilesDeep(this.data[property])) {
                 return true;
@@ -549,7 +565,7 @@ export class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected startProcessing (): void {
+    private startProcessing (): void {
         if (this.hasErrors()) {
             this.errorHandler?.clear();
         }
@@ -675,7 +691,7 @@ export class Form implements FormInterface {
      *
      * @return  {void}
      */
-    protected validateRequestType (method: RequestTypes): void {
+    private validateRequestType (method: RequestTypes): void {
         const methods = [
             Methods.GET,
             Methods.POST,
