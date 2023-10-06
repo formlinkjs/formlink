@@ -122,7 +122,7 @@ describe('Form', () => {
         await form.post('/user/photo');
     });
 
-    it.only('can set errors from the server', async () => {
+    it('can set errors from the server', async () => {
         const mockAdapter = new MockAdapter(axios);
         mockAdapter.onPost('/login').reply(422, {
             errors: {
