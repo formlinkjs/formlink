@@ -9,7 +9,6 @@ import { guardAgainstReservedFieldName } from './../support/field-name-validator
 import { Http } from './http';
 import { Http as HttpEnum } from './../enums/http';
 import { Methods } from './../enums/methods';
-import { ErrorObject } from './../interfaces/exceptions/error-object';
 import { hasFilesDeep } from './../support/helpers';
 import { objectToFormData } from './../support/form-data';
 import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
