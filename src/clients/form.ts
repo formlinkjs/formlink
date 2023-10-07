@@ -110,7 +110,7 @@ export class Form implements FormInterface {
      */
     public static create (
         data: { [key: string]: any; },
-        options?: FormOptions
+        options?: Partial<FormOptions>
     ): Form {
         return new Form(data, options);
     }
@@ -119,75 +119,75 @@ export class Form implements FormInterface {
      * Make GET request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     public async get (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any> {
-        return await this.submit(Methods.GET, url, config);
+        return await this.submit(Methods.GET, url, options);
     }
 
     /**
      * Make POST request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     public async post (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any> {
-        return await this.submit(Methods.POST, url, config);
+        return await this.submit(Methods.POST, url, options);
     }
 
     /**
      * Make PUT request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     public async put (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any> {
-        return await this.submit(Methods.PUT, url, config);
+        return await this.submit(Methods.PUT, url, options);
     }
 
     /**
      * Make PATCH request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     public async patch (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any> {
-        return await this.submit(Methods.PATCH, url, config);
+        return await this.submit(Methods.PATCH, url, options);
     }
 
     /**
      * Make DELETE request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     public async delete (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any> {
-        return await this.submit(Methods.DELETE, url, config);
+        return await this.submit(Methods.DELETE, url, options);
     }
 
     /**
@@ -195,39 +195,39 @@ export class Form implements FormInterface {
      *
      * @param   {RequestTypes}  method
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     public async submit (
         method: RequestTypes,
         url: URL | string,
-        config: FormOptions = this.options
+        options: FormOptions = this.options
     ): Promise<any> {
         this.startProcessing();
 
         this.validateRequestType(method);
 
-        return await this.makeRequest(method, url, config)
+        return await this.makeRequest(method, url, options)
             .then((response) => {
                 this.errorHandler?.clear();
 
                 this.onSuccess(response);
 
-                if (config.onSuccess) {
-                    return config.onSuccess(response);
+                if (options.onSuccess) {
+                    return options.onSuccess(response);
                 }
             })
             .catch((errors) => {
                 this.onFail(errors);
 
-                if (config.onFail) {
-                    return config.onFail(errors);
+                if (options.onFail) {
+                    return options.onFail(errors);
                 }
             })
             .finally(() => {
-                if (config.onFinish) {
-                    return config.onFinish();
+                if (options.onFinish) {
+                    return options.onFinish();
                 }
             });
     }
@@ -237,21 +237,21 @@ export class Form implements FormInterface {
      *
      * @param  {RequestTypes}  method
      * @param  {URL|string}  url
-     * @param  {FormOptions}  config
+     * @param  {FormOptions}  options
      *
      * @return  {Promise}
      */
     private makeRequest (
         method: RequestTypes,
         url: URL | string,
-        config: FormOptions
+        options: FormOptions
     ): Promise<any> {
         return new Promise((resolve, reject): void => {
             this.getHttpHandler()
                 .request(_.merge({
                     url: url instanceof URL ? url.toString() : url,
                     method: method.toLowerCase(),
-                    ...{ ...this.options, ...config }
+                    ...{ ...this.options, ...options }
                 }, this.prepareDataForMethod(method)))
                 .then((response: any) => resolve(response))
                 .catch((error: any) => reject(error));

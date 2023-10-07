@@ -17,65 +17,65 @@ export interface Form {
      * Make GET request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     get (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any>;
 
     /**
      * Make POST request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     post (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any>;
 
     /**
      * Make PUT request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     put (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any>;
 
     /**
      * Make PATCH request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     patch (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any>;
 
     /**
      * Make DELETE request with currently attached data object to given endpoint.
      *
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     delete (
         url: URL | string,
-        config?: FormOptions
+        options?: Partial<FormOptions>
     ): Promise<any>;
 
     /**
@@ -83,14 +83,14 @@ export interface Form {
      *
      * @param   {RequestTypes}  method
      * @param   {URL|string}  url
-     * @param   {object}  config
+     * @param   {object}  options
      *
      * @return  {Promise}
      */
     submit (
         method: RequestTypes,
         url: URL | string,
-        config: FormOptions
+        options: FormOptions
     ): Promise<any>;
     /**
      * Assign data to current instance of form object.
