@@ -125,9 +125,7 @@ describe('Form', () => {
     it('can set errors from the server', async () => {
         const mockAdapter = new MockAdapter(axios);
         mockAdapter.onPost('/login').reply(422, {
-            errors: {
-                username: ['The username field is required.']
-            }
+            errors: { username: ['The username field is required.'] }
         });
 
         const form = new Form({});

@@ -339,11 +339,11 @@ export class Form implements FormInterface {
     /**
      * Assign data to current instance of form object.
      *
-     * @param   {object}  data
+     * @param   {Record<string, any>}  data
      *
      * @return  {Form}
      */
-    public withData (data: { [key: string]: any; }): Form {
+    public withData (data: Record<string, any>): Form {
         this.setInitialValues(data);
 
         this.processing = false;
@@ -361,11 +361,11 @@ export class Form implements FormInterface {
     /**
      * Set initial/original values of form data.
      *
-     * @param   {object}  values
+     * @param   {Record<string, any>}  values
      *
      * @return  {void}
      */
-    private setInitialValues (values: { [key: string]: any; }): void {
+    private setInitialValues (values: Record<string, any>): void {
         this.initial = {};
 
         _.merge(this.initial, values);
@@ -378,7 +378,7 @@ export class Form implements FormInterface {
      *
      * @return  {Form}
      */
-    public withOptions (options?: FormOptions): Form {
+    public withOptions (options?: Partial<FormOptions>): Form {
         this.options = _.merge(this.options, options || {});
 
         return this;
@@ -464,17 +464,6 @@ export class Form implements FormInterface {
      */
     public getOptions (): FormOptions {
         return this.options;
-    }
-
-    /**
-     * Set custom options.
-     *
-     * @param   {string}  options
-     *
-     * @return  {void}
-     */
-    public setOptions (options: { [key: string]: any; }): void {
-        this.options = _.merge(this.options, options);
     }
 
     /**
