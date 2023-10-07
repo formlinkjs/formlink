@@ -1,1 +1,0 @@
-{"version":3,"file":"error-data.d.ts","sourceRoot":"","sources":["../../../../src/interfaces/exceptions/error-data.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,SAAS,GAAG;IACpB;;;;OAIG;IACH,OAAO,CAAC,EAAE,MAAM,CAAC;IAEjB;;;;OAIG;IACH,MAAM,EAAE;QAAE,CAAC,GAAG,EAAE,MAAM,GAAG,MAAM,EAAE,CAAC;KAAE,CAAC;CACxC,CAAC"}

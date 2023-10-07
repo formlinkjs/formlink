@@ -1,12 +1,14 @@
 {
-    "$schema": "https://json.schemastore.org/tsconfig",
-    "root": true,
     "compilerOptions": {
         "target": "ESNext",
         "lib": [
             "DOM",
             "DOM.Iterable",
             "ESNext"
+        ],
+        "types": [
+            "vite/client",
+            "node"
         ],
         "allowJs": false,
         "skipLibCheck": true,
@@ -20,32 +22,17 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "preserve",
-        "rootDir": "./",
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "paths": {
             "@/*": [
-                "./*"
+                "src/*"
             ]
-        },
-        "types": [
-            "vite/client",
-            "node"
-        ],
-        "typeRoots": [
-            "./types",
-            "./node_modules/@types"
-        ]
+        }
     },
-    "exclude": [
-        "node_modules",
-        "./tests/**/*.test.ts",
-        "./tests/**/*.spec.ts"
-    ],
     "include": [
-        "src/**/*.ts",
-        "src/**/*.d.ts",
-        "src/**/*.tsx",
-        "types/src/**/*.ts",
-        "types/src/**/*.d.ts"
+        "./src"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }
