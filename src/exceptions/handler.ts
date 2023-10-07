@@ -19,7 +19,7 @@ export class Handler implements ExceptionHadlder {
      *
      * @var {number}
      */
-    public status: number = Http.UNPROCESSABLE_ENTITY;
+    protected status: number = Http.UNPROCESSABLE_ENTITY;
 
     /**
      * Create new errors handler instance.
@@ -73,7 +73,10 @@ export class Handler implements ExceptionHadlder {
      * @return {string[]}
      */
     public getAll (field: string): string[] {
-        const fieldError = _.find(this.errors, (error: ErrorObject) => error.field === field);
+        const fieldError = _.find(
+            this.errors,
+            (error: ErrorObject) => error.field === field
+        );
 
         return typeof fieldError?.message === 'string'
             ? [fieldError.message]
@@ -136,11 +139,11 @@ export class Handler implements ExceptionHadlder {
     /**
      * Parse errors object.
      *
-     * @param  {object} errors
+     * @param  {ErrorRepsonse} errors
      *
-     * @return {object}
+     * @return {ErrorObject[]}
      */
-    public parseErrors (
+    private parseErrors (
         errors: ErrorRepsonse
     ): ErrorObject[] {
         this.status = errors.response.status;
@@ -151,7 +154,7 @@ export class Handler implements ExceptionHadlder {
     /**
      * Clear message of given error field.
      *
-     * @param  {string} field
+     * @param  {string|undefined} field
      *
      * @return {void}
      */

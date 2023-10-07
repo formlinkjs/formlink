@@ -41,16 +41,16 @@ export interface Handler {
     /**
      * Get all the errors in a flat array.
      *
-     * @return {any[]}
+     * @return {string[]}
      */
-    flatten (): any[];
+    flatten (): string[];
 
     /**
      * Get all the errors.
      *
-     * @return {object}
+     * @return {ErrorObject[]}
      */
-    all (): object;
+    all (): ErrorObject[];
 
     /**
      * Record error messages object.
@@ -64,7 +64,7 @@ export interface Handler {
     /**
      * Clear message of given error field.
      *
-     * @param  {string} field
+     * @param  {string|undefined} field
      *
      * @return {void}
      */

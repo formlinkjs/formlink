@@ -195,14 +195,14 @@ export class Form implements FormInterface {
      *
      * @param   {RequestTypes}  method
      * @param   {URL|string}  url
-     * @param   {object}  options
+     * @param   {Partial<FormOptions>}  options
      *
      * @return  {Promise}
      */
     public async submit (
         method: RequestTypes,
         url: URL | string,
-        options: FormOptions = this.options
+        options: Partial<FormOptions> = this.options
     ): Promise<any> {
         this.startProcessing();
 
@@ -598,9 +598,9 @@ export class Form implements FormInterface {
     /**
      * Get all the errors associated with the form in a flat array.
      *
-     * @return  {ErrorObject[]}
+     * @return  {string[]}
      */
-    public allErrors (): ErrorObject[] {
+    public allErrors (): string[] {
         return this.errorHandler?.flatten() || [];
     }
 

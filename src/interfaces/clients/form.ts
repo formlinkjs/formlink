@@ -2,7 +2,6 @@ import { FormOptions } from '../form/form-options';
 import { RequestTypes } from './../http/request-types';
 import type { AxiosStatic } from 'axios';
 import { AxiosInstance } from 'axios';
-import { ErrorObject } from './../exceptions/error-object';
 import { Handler as ErrorHandler } from './../exceptions/handler';
 
 export interface Form {
@@ -83,14 +82,14 @@ export interface Form {
      *
      * @param   {RequestTypes}  method
      * @param   {URL|string}  url
-     * @param   {object}  options
+     * @param   {Partial<FormOptions>}  options
      *
      * @return  {Promise}
      */
     submit (
         method: RequestTypes,
         url: URL | string,
-        options: FormOptions
+        options: Partial<FormOptions>
     ): Promise<any>;
     /**
      * Assign data to current instance of form object.
@@ -219,9 +218,9 @@ export interface Form {
     /**
      * Get all the errors associated with the form in a flat array.
      *
-     * @return  {ErrorObject[]}
+     * @return  {string[]}
      */
-    allErrors (): ErrorObject[];
+    allErrors (): string[];
 
     /**
      * Clear the error message for the given form input.
