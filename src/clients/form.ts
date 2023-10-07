@@ -1,19 +1,19 @@
-import { Form as FormInterface } from '@/interfaces/clients/form';
-import { Response } from '@/interfaces/http/response';
-import { FormOptions } from '@/interfaces/form/form-options';
-import { Handler as ErrorHandler } from '@/exceptions/handler';
-import { Handler as ErrorHandlerInterface } from '@/interfaces/exceptions/handler';
+import { Form as FormInterface } from './../interfaces/clients/form';
+import { Response } from './../interfaces/http/response';
+import { FormOptions } from './../interfaces/form/form-options';
+import { Handler as ErrorHandler } from './../exceptions/handler';
+import { Handler as ErrorHandlerInterface } from './../interfaces/exceptions/handler';
 import type { AxiosInstance, AxiosStatic } from 'axios';
 import _ from 'lodash';
-import { guardAgainstReservedFieldName } from '@/support/field-name-validator';
-import { Http } from '@/clients/http';
-import { Http as HttpEnum } from '@/enums/http';
-import { Methods } from '@/enums/methods';
-import { ErrorObject } from '@/interfaces/exceptions/error-object';
-import { hasFilesDeep } from '@/support/helpers';
-import { objectToFormData } from '@/support/form-data';
-import { ErrorRepsonse } from '@/interfaces/exceptions/error-response';
-import { RequestTypes } from '@/interfaces/http/request-types';
+import { guardAgainstReservedFieldName } from './../support/field-name-validator';
+import { Http } from './http';
+import { Http as HttpEnum } from './../enums/http';
+import { Methods } from './../enums/methods';
+import { ErrorObject } from './../interfaces/exceptions/error-object';
+import { hasFilesDeep } from './../support/helpers';
+import { objectToFormData } from './../support/form-data';
+import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
+import { RequestTypes } from './../interfaces/http/request-types';
 
 export class Form implements FormInterface {
     /**

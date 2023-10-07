@@ -1,4 +1,4 @@
-import { ReservedFieldNames } from '@/enums/reserved-field-names';
+import { ReservedFieldNames } from './../enums/reserved-field-names';
 
 export const reservedFieldNames: ReservedFieldNames[] = [
     ReservedFieldNames.OPTIONS,

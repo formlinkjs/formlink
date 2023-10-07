@@ -1,7 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Parser } from './parser';
-import { makeError } from '@/support/helpers';
-import { ErrorData } from '@/interfaces/exceptions/error-data';
 
 describe('Parser', () => {
     let parser: Parser;

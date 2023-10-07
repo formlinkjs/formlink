@@ -1,5 +1,5 @@
 import { AxiosStatic } from 'axios';
-import { Handler as ErrorHandlerInterface } from '@/interfaces/exceptions/handler';
+import { Handler as ErrorHandlerInterface } from './../exceptions/handler';
 
 export type FormOptions = {
     resetOnSuccess?: boolean,

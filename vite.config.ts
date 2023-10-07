@@ -23,7 +23,7 @@ export default defineConfig({
                 typescript({
                     sourceMap: false,
                     declaration: true,
-                    outDir: 'dist',
+                    outDir: 'dist'
                 }),
             ],
         },

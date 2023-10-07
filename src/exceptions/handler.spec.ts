@@ -1,7 +1,6 @@
-import { ErrorRepsonse } from '@/interfaces/exceptions/error-response';
 import { Handler } from './handler';
 import { describe, expect, test, beforeEach } from 'vitest';
-import { makeError } from '@/support/helpers';
+import { makeError } from './../support/helpers';
 import { ErrorObject } from './error-object';
 
 describe('Handler', () => {

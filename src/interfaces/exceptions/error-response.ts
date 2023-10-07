@@ -1,4 +1,4 @@
-import { Response } from '@/interfaces/http/response';
+import { Response } from './../http/response';
 
 export interface ErrorRepsonse {
     response: Response;

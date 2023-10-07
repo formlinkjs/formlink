@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import axios, { AxiosInstance, AxiosStatic, CreateAxiosDefaults } from 'axios';
-import { Http as HttpInterface } from '@/interfaces/clients/http';
-import { Http as HttpEnum } from '@/enums/http';
-import { HttpOptions } from '@/interfaces/http/http-options';
-import { HttpHeaders } from '@/interfaces/http/http-headers';
+import { Http as HttpInterface } from './../interfaces/clients/http';
+import { Http as HttpEnum } from './../enums/http';
+import { HttpOptions } from './../interfaces/http/http-options';
+import { HttpHeaders } from './../interfaces/http/http-headers';
 
 export class Http implements HttpInterface {
     /**

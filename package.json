@@ -11,11 +11,13 @@
     "module": "./dist/index.es.js",
     "types": "./dist/index.d.ts",
     "license": "MIT",
-    "type": "module",
     "repository": "https://github.com/formlinkjs/formlink.git",
     "publishConfig": {
         "registry": "https://npm.pkg.github.com"
     },
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "tsc && vite build",
         "lint": "eslint --ext .ts,.js src",
