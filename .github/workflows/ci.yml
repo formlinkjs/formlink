@@ -1,4 +1,4 @@
-name: gi CI
+name: Formlink CI
 
 on:
   schedule:
