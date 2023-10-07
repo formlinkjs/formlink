@@ -9,7 +9,7 @@
     },
     "main": "./dist/formlink.cjs.js",
     "module": "./dist/formlink.es.js",
-    "types": "./types/src/index.d.ts",
+    "types": "./dist/src/index.d.ts",
     "license": "MIT",
     "type": "module",
     "repository": "https://github.com/formlinkjs/formlink.git",
@@ -41,7 +41,6 @@
         "rollup-plugin-typescript-paths": "^1.4.0",
         "typescript": "^5.2.2",
         "vite": "^4.4.11",
-        "vite-plugin-dts": "^3.6.0",
         "vitest": "^0.34.6"
     }
 }

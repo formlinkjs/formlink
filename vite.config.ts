@@ -2,7 +2,6 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import typescript from "@rollup/plugin-typescript";
 import { typescriptPaths } from "rollup-plugin-typescript-paths";
-import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,10 +10,9 @@ export default defineConfig({
         minify: true,
         reportCompressedSize: true,
         lib: {
-            entry: path.resolve(__dirname, './src/index.ts'),
-            name: 'formlink',
+            entry: path.resolve(__dirname, 'src/index.ts'),
             formats: ['es', 'cjs'],
-            fileName: format => `formlink.${format}.js`
+            fileName: 'index'
         },
         rollupOptions: {
             external: [],
@@ -25,19 +23,20 @@ export default defineConfig({
                 typescript({
                     sourceMap: false,
                     declaration: true,
-                    outDir: "dist",
+                    outDir: 'dist',
                 }),
             ],
         },
     },
 
     resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src')
-        }
+        alias: [
+            {
+                find: "@",
+                replacement: path.resolve(__dirname, "./src"),
+            },
+        ],
     },
 
-    plugins: [(dts({
-        outDir: path.resolve(__dirname, './types')
-    }) as any)]
+    plugins: []
 });
