@@ -77,11 +77,11 @@ export interface Form {
     /**
      * Assign options to be used by current instance of form object.
      *
-     * @param   {FormOptions|undefined}  options
+     * @param   {Partial<FormOptions>|undefined}  options
      *
      * @return  {Form}
      */
-    withOptions(options?: FormOptions): Form;
+    withOptions(options?: Partial<FormOptions>): Form;
     /**
      * Get all data as object assgined to form object.
      *
@@ -125,14 +125,6 @@ export interface Form {
      * @return  {FormOptions}
      */
     getOptions(): FormOptions;
-    /**
-     * Set custom options.
-     *
-     * @param   {Partial<FormOptions>}  options
-     *
-     * @return  {void}
-     */
-    setOptions(options: Partial<FormOptions>): void;
     /**
      * Set the default HttpHandler instance to use for form submission.
      *

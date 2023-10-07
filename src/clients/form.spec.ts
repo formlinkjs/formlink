@@ -18,7 +18,7 @@ describe('Form', () => {
 
         expect(options.resetOnSuccess).toBe(true);
 
-        form.setOptions({ resetOnSuccess: false });
+        form.withOptions({ resetOnSuccess: false });
 
         expect(options.resetOnSuccess).toBe(false);
     });

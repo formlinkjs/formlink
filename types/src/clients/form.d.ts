@@ -165,17 +165,15 @@ export declare class Form implements FormInterface {
     /**
      * Assign data to current instance of form object.
      *
-     * @param   {object}  data
+     * @param   {Record<string, any>}  data
      *
      * @return  {Form}
      */
-    withData(data: {
-        [key: string]: any;
-    }): Form;
+    withData(data: Record<string, any>): Form;
     /**
      * Set initial/original values of form data.
      *
-     * @param   {object}  values
+     * @param   {Record<string, any>}  values
      *
      * @return  {void}
      */
@@ -187,7 +185,7 @@ export declare class Form implements FormInterface {
      *
      * @return  {Form}
      */
-    withOptions(options?: FormOptions): Form;
+    withOptions(options?: Partial<FormOptions>): Form;
     /**
      * Get all data as object assgined to form object.
      *
@@ -237,16 +235,6 @@ export declare class Form implements FormInterface {
      * @return  {FormOptions}
      */
     getOptions(): FormOptions;
-    /**
-     * Set custom options.
-     *
-     * @param   {string}  options
-     *
-     * @return  {void}
-     */
-    setOptions(options: {
-        [key: string]: any;
-    }): void;
     /**
      * Set the default HttpHandler instance to use for form submission.
      *
