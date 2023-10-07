@@ -1,16 +1,24 @@
 {
     "name": "@formlinkjs/formlink",
     "version": "0.0.1",
-    "main": "dist/index.js",
+    "exports": {
+        ".": {
+            "import": "./dist/formlink.es.js",
+            "require": "./dist/formlink.cjs.js"
+        }
+    },
+    "main": "./dist/formlink.cjs.js",
+    "module": "./dist/formlink.es.js",
+    "types": "./types/src/index.d.ts",
     "license": "MIT",
     "type": "module",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/formlinkjs/formlink.git"
-    },
+    "repository": "https://github.com/formlinkjs/formlink.git",
     "publishConfig": {
         "registry": "https://npm.pkg.github.com"
     },
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "tsc && vite build",
         "lint": "eslint --ext .ts,.js src",
@@ -21,6 +29,7 @@
         "lodash": "^4.17.21"
     },
     "devDependencies": {
+        "@rollup/plugin-typescript": "^11.1.5",
         "@types/lodash": "^4.14.199",
         "@types/node": "^20.8.2",
         "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -29,6 +38,7 @@
         "eslint": "^8.51.0",
         "eslint-plugin-mdx": "^2.2.0",
         "jsdom": "^22.1.0",
+        "rollup-plugin-typescript-paths": "^1.4.0",
         "typescript": "^5.2.2",
         "vite": "^4.4.11",
         "vite-plugin-dts": "^3.6.0",

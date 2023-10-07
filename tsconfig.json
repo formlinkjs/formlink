@@ -1,4 +1,5 @@
 {
+    "$schema": "https://json.schemastore.org/tsconfig",
     "root": true,
     "compilerOptions": {
         "composite": false,
@@ -23,9 +24,10 @@
         "paths": {
             "@/*": [
                 "./*"
-            ],
+            ]
         },
         "types": [
+            "vite/client",
             "node"
         ],
         "typeRoots": [
@@ -37,11 +39,13 @@
         "node_modules",
         "dist",
         "./tests/**/*.test.ts",
-        "./tests/**/*.spec.ts",
+        "./tests/**/*.spec.ts"
     ],
     "include": [
         "src/**/*.ts",
         "src/**/*.d.ts",
-        "src/**/*.tsx"
+        "src/**/*.tsx",
+        "types/src/**/*.ts",
+        "types/src/**/*.d.ts"
     ]
 }
