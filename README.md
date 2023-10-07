@@ -77,12 +77,14 @@ const submit = () => {
 ```tsx
 import { Form } from 'formlink';
 
+const token = 'Bearer token';
+
 const form = new Form({
     email: '',
     password: '',
     remember: false,
 }, {
-    token: props.token, // Bearer token
+    token,
     baseUrl: 'https://example.com/api',
 });
 
@@ -135,6 +137,7 @@ return (
 import { onMount } from 'svelte';
 import { Form } from 'formlink';
 
+let token = 'Bearer token';
 let email = '';
 let password = '';
 let remember = false;
@@ -144,7 +147,7 @@ const form = new Form({
     password: '',
     remember: false,
 }, {
-    token: props.token, // Bearer token
+    token,
     baseUrl: 'https://example.com/api',
 });
 
