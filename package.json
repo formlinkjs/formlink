@@ -1,19 +1,21 @@
 {
-    "name": "@formlinkjs/formlink",
+    "name": "formlink",
     "version": "0.0.1",
-    "exports": {
-        ".": {
-            "import": "./dist/index.es.js",
-            "require": "./dist/index.cjs.js"
-        }
-    },
     "main": "./dist/index.cjs.js",
     "module": "./dist/index.es.js",
     "types": "./dist/index.d.ts",
     "license": "MIT",
-    "repository": "https://github.com/formlinkjs/formlink.git",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/formlinkjs/formlink.git"
+    },
+    "bugs": {
+        "url": "https://github.com/formlinkjs/formlink.git/issues"
+    },
+    "homepage": "https://github.com/formlinkjs/formlink.git#README.md",
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
+        "access": "public",
+        "registry": "https://registry.npmjs.org"
     },
     "files": [
         "dist"
