@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Update set data method and error handler
+- Update README.md with more information about how to use with Vue 3 Composition API
 
 ## [v0.0.5](https://github.com/fornlinkjs/fornlink/compare/v0.0.4...v0.0.5) - 09-10-2023
 

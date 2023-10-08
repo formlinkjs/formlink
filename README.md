@@ -21,17 +21,18 @@ npm install formlink
 ```vue
 <script lang="ts" setup>
 import { Form } from 'formlink';
+import { reactive } from 'vue';
 
 const props = defineProps<{ token: string; }>();
 
-const form = new Form({
+const form = reactive(new Form({
     email: '',
     password: '',
     remember: false,
 }, {
     token: props.token, // Bearer token
     baseUrl: 'https://example.com/api',
-});
+}));
 
 const submit = () => {
     form.transform(data => ({
