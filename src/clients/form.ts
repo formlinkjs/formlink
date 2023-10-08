@@ -100,14 +100,12 @@ export class Form implements FormInterface {
         this.resetStatus();
         this.isDirty = false;
 
-        this.withData(data).withOptions(options);
+        this.initialiseErrorHandler(options)
+            .withData(data)
+            .withOptions(options);
 
         if (options?.http) {
             this.setHttpHandler(options.http);
-        }
-
-        if (options?.errorHandler) {
-            this.setErrorHandler(options.errorHandler);
         }
 
         return this.getProxy(this);
@@ -425,13 +423,7 @@ export class Form implements FormInterface {
      * @return  {Record<string, any>}
      */
     public getData (): Record<string, any> {
-        const data: Record<string, any> = {};
-
-        _.forEach(this.initial, (_value: any, key: string) => {
-            data[key] = this.data[key];
-        });
-
-        return data;
+        return this.data;
     }
 
     /**
@@ -551,6 +543,22 @@ export class Form implements FormInterface {
         }
 
         return this.errorHandler;
+    }
+
+    /**
+     * Initialise the error handler instance.
+     *
+     * @param   {Partial<FormOptions>|undefined}  options
+     *
+     * @return  {Form}
+     */
+    private initialiseErrorHandler (options?: Partial<FormOptions>): Form {
+        this.setErrorHandler(
+            (options?.errorHandler || this.options?.errorHandler)
+            || new ErrorHandler()
+        );
+
+        return this;
     }
 
     /**
