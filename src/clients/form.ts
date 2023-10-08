@@ -13,6 +13,7 @@ import { hasFilesDeep } from './../support/helpers';
 import { objectToFormData } from './../support/form-data';
 import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
 import { RequestTypes } from './../interfaces/http/request-types';
+import { reservedFieldNames } from '../support/field-name-validator';
 
 export class Form implements FormInterface {
     /**
@@ -70,6 +71,13 @@ export class Form implements FormInterface {
     private recentlySuccessful = false;
 
     /**
+     * Indicate if the form has been modified.
+     *
+     * @var {boolean}
+     */
+    private isDirty = false;
+
+    /**
      * The default HTTP handler instance to use for form submission.
      *
      * @var {AxiosInstance|undefined}
@@ -88,6 +96,9 @@ export class Form implements FormInterface {
         data: Record<string, any> = {},
         options?: FormOptions
     ) {
+        this.resetStatus();
+        this.isDirty = false;
+
         this.withData(data).withOptions(options);
 
         if (options?.http) {
@@ -97,6 +108,30 @@ export class Form implements FormInterface {
         if (options?.errorHandler) {
             this.setErrorHandler(options.errorHandler);
         }
+
+        return this.getProxy(this);
+    }
+
+    /**
+     * Create a new form instance as a proxy.
+     *
+     * @return  {Form}
+     */
+    public getProxy (instance: Form): Form {
+        return new Proxy(instance, {
+            set: (obj: Form, prop: string, value) => {
+                _.set(obj, prop, value);
+
+                if (
+                    reservedFieldNames.indexOf(prop as any) === -1 &&
+                    value !== obj.initial[prop as string]
+                ) {
+                    obj.setIsDirty(true);
+                }
+
+                return true;
+            }
+        });
     }
 
     /**
@@ -670,6 +705,26 @@ export class Form implements FormInterface {
      */
     public setRecentlySuccessful (state: boolean): void {
         this.recentlySuccessful = state;
+    }
+
+    /**
+     * Determine if the form has been modified.
+     *
+     * @return  {boolean}
+     */
+    public getIsDirty (): boolean {
+        return this.isDirty;
+    }
+
+    /**
+     * Set status properties to indicate form has been modified.
+     *
+     * @param   {boolean}  state
+     *
+     * @return  {void}
+     */
+    public setIsDirty (state: boolean): void {
+        this.isDirty = state;
     }
 
     /**
