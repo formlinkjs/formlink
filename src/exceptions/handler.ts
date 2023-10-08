@@ -146,9 +146,13 @@ export class Handler implements ExceptionHadlder {
     private parseErrors (
         errors: ErrorRepsonse
     ): ErrorObject[] {
-        this.status = errors.response.status;
+        this.status = errors.response?.status || Http.UNPROCESSABLE_ENTITY;
 
-        return Parser.parse(errors.response.data as ErrorData);
+        if (errors.response?.data) {
+            return Parser.parse(errors.response.data as ErrorData);
+        }
+
+        return [];
     }
 
     /**

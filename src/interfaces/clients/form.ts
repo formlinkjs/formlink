@@ -10,6 +10,7 @@ export interface Form {
      *
      * @var {Record<string, any>}
      */
+    [key: string]: any;
     data: Record<string, any>;
 
     /**
@@ -220,7 +221,7 @@ export interface Form {
      *
      * @return  {string[]}
      */
-    allErrors (): string[];
+    errors (): string[];
 
     /**
      * Clear the error message for the given form input.
@@ -276,4 +277,20 @@ export interface Form {
      * @return  {void}
      */
     setRecentlySuccessful (state: boolean): void;
+
+    /**
+     * Determine if the form has been modified.
+     *
+     * @return  {boolean}
+     */
+    getIsDirty (): boolean;
+
+    /**
+     * Set status properties to indicate form has been modified.
+     *
+     * @param   {boolean}  state
+     *
+     * @return  {void}
+     */
+    setIsDirty (state: boolean): void;
 }

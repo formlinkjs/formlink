@@ -28,6 +28,7 @@ export class Form implements FormInterface {
      *
      * @var {Record<string, any>}
      */
+    [key: string]: any;
     public data: Record<string, any> = {};
 
     /**
@@ -402,7 +403,7 @@ export class Form implements FormInterface {
     private setInitialValues (values: Record<string, any>): void {
         this.initial = {};
 
-        _.merge(this.initial, values);
+        Object.assign({}, this.initial, _.cloneDeep(values));
     }
 
     /**
@@ -438,9 +439,9 @@ export class Form implements FormInterface {
      *
      * @param   {function}  callback
      *
-     * @return  {FormInterface}
+     * @return  {Form}
      */
-    public transform (callback: (data: Record<string, any>) => void): FormInterface {
+    public transform (callback: (data: Record<string, any>) => void): Form {
         callback(this.getData());
 
         return this;
@@ -634,7 +635,7 @@ export class Form implements FormInterface {
      *
      * @return  {string[]}
      */
-    public allErrors (): string[] {
+    public errors (): string[] {
         return this.errorHandler?.flatten() || [];
     }
 

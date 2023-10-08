@@ -11,5 +11,5 @@ export type ErrorData = {
      *
      * @var {number}
      */
-    errors: { [key: string]: string[]; };
+    errors?: { [key: string]: string[]; };
 };

@@ -1,5 +1,4 @@
+import type { AxiosError } from 'axios';
 import { Response } from './../http/response';
 
-export interface ErrorRepsonse {
-    response: Response;
-}
+export type ErrorRepsonse = AxiosError<Response, any>;
