@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased](https://github.com/formlinkjs/formlink/compare/v0.0.2...v0.0.x)
 
+## [v0.0.4](https://github.com/fornlinkjs/fornlink/compare/v0.0.3...v0.0.4) - 08-10-2023
+
+### Changed
+
+- Create proxy instance when Form is instantiated.
+- Minor method refactors
+
 ## [v0.0.3](https://github.com/fornlinkjs/fornlink/compare/v0.0.2...v0.0.3) - 08-10-2023
 
 ### Changed
