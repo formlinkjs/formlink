@@ -3,7 +3,7 @@ import { Response } from './../interfaces/http/response';
 import { FormOptions } from './../interfaces/form/form-options';
 import { Handler as ErrorHandler } from './../exceptions/handler';
 import { Handler as ErrorHandlerInterface } from './../interfaces/exceptions/handler';
-import type { AxiosInstance, AxiosStatic } from 'axios';
+import { type AxiosInstance, type AxiosStatic } from 'axios';
 import _ from 'lodash';
 import { guardAgainstReservedFieldName } from './../support/field-name-validator';
 import { Http } from './http';
@@ -14,6 +14,7 @@ import { objectToFormData } from './../support/form-data';
 import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
 import { RequestTypes } from './../interfaces/http/request-types';
 import { reservedFieldNames } from '../support/field-name-validator';
+import axios from 'axios';
 
 export class Form implements FormInterface {
     /**
@@ -88,25 +89,16 @@ export class Form implements FormInterface {
     /**
      * Create a new Form instance.
      *
-     * @param {object} data
-     * @param {FormOptions|undefined} options
+     * @param {Record<string, any>} data
+     * @param {Partial<FormOptions>|undefined} options
      *
      * @return  {void}
      */
     constructor (
         data: Record<string, any> = {},
-        options?: FormOptions
+        options?: Partial<FormOptions>
     ) {
-        this.resetStatus();
-        this.isDirty = false;
-
-        this.initialiseErrorHandler(options)
-            .withData(data)
-            .withOptions(options);
-
-        if (options?.http) {
-            this.setHttpHandler(options.http);
-        }
+        this.initialise(data, options);
 
         return this.getProxy(this);
     }
@@ -134,15 +126,36 @@ export class Form implements FormInterface {
     }
 
     /**
+     * Initialise formlink instance.
+     *
+     * @param   {Record<string, any>}  data
+     * @param   {Partial<FormOptions>|undefined}  options
+     *
+     * @return  {void}
+     */
+    private initialise (
+        data: Record<string, any>,
+        options: Partial<FormOptions> = this.options
+    ): void {
+        this.resetStatus();
+        this.isDirty = false;
+
+        this.initialiseHttpHandler(options)
+            .initialiseErrorHandler(options)
+            .withData(data)
+            .withOptions(options);
+    }
+
+    /**
      * Create static instance of form object.
      *
-     * @param   {object}  data
-     * @param   {FormOptions|undefined}  options
+     * @param   {Record<string, any>}  data
+     * @param   {Partial<FormOptions>|undefined}  options
      *
      * @return  {Form}
      */
     public static create (
-        data: { [key: string]: any; },
+        data: Record<string, any>,
         options?: Partial<FormOptions>
     ): Form {
         return new Form(data, options);
@@ -520,6 +533,37 @@ export class Form implements FormInterface {
     }
 
     /**
+     * Initialise the http handler instance.
+     *
+     * @param   {Partial<FormOptions>|undefined}  options
+     *
+     * @return  {Form}
+     */
+    private initialiseHttpHandler (options?: Partial<FormOptions>): Form {
+        this.setHttpHandler(
+            (options?.http || this.options?.http) || axios
+        );
+
+        return this;
+    }
+
+    /**
+     * Create a new http handler instance.
+     *
+     * @param  {AxiosStatic|undefined}  client
+     *
+     * @return  {AxiosInstance}
+     */
+    private createHttpHandler (client?: AxiosStatic): AxiosInstance {
+        return (new Http(client))
+            .acceptJson()
+            .contentType(HttpEnum.DEFAULT_CONTENT_TYPE)
+            .setToken(this.options.token)
+            .baseUrl(this.options.baseUrl)
+            .createInstance();
+    }
+
+    /**
      * Create the default HttpHandler instance.
      *
      * @param {ErrorHandlerInterface} errorHandler
@@ -559,22 +603,6 @@ export class Form implements FormInterface {
         );
 
         return this;
-    }
-
-    /**
-     * Create a new http handler instance.
-     *
-     * @param  {AxiosStatic|undefined}  client
-     *
-     * @return  {AxiosInstance}
-     */
-    private createHttpHandler (client?: AxiosStatic): AxiosInstance {
-        return (new Http(client))
-            .acceptJson()
-            .contentType(HttpEnum.DEFAULT_CONTENT_TYPE)
-            .setToken(this.options.token)
-            .baseUrl(this.options.baseUrl)
-            .createInstance();
     }
 
     /**
