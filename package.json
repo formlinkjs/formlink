@@ -22,7 +22,7 @@
     "bugs": {
         "url": "https://github.com/formlinkjs/formlink.git/issues"
     },
-    "homepage": "https://github.com/formlinkjs/formlink.git#README.md",
+    "homepage": "https://formlinkjs.com",
     "publishConfig": {
         "access": "public",
         "registry": "https://registry.npmjs.org"
