@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Update type hints on `Form` class
+- Update http initialise method call priority
 
 ## [v0.0.6](https://github.com/fornlinkjs/fornlink/compare/v0.0.5...v0.0.6) - 09-10-2023
 
