@@ -2,6 +2,8 @@
 
 # Formlink
 
+![ci](https://github.com/formlinkjs/formlink/actions/workflows/ci.yml/badge.svg)
+
 Since working with forms is so common, especially in frameworks like Vue, React, and Svelte. Formlink is a form helper library designed to help reduce the amount of boilerplate code needed for handling typical form submissions. It is designed to be framework-agnostic and can be used with any framework or library. It allows for an explicit way to set the serialization of the form data and provides a way to handle form submission errors. When uploading a file for instance, it is usual to have to convert the object into a formdata object by passing a transformer to [Axios](https://axios-http.com/docs/intro) config it's always been a lot of boilerplate code for something that could be handled by the form abstraction and so this library was born.
 
 ## API Reference
