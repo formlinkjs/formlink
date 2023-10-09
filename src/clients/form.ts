@@ -135,15 +135,15 @@ export class Form implements FormInterface {
      */
     private initialise (
         data: Record<string, any>,
-        options: Partial<FormOptions> = this.options
+        options?: Partial<FormOptions>
     ): void {
         this.resetStatus();
         this.isDirty = false;
 
-        this.initialiseHttpHandler(options)
-            .initialiseErrorHandler(options)
-            .withData(data)
-            .withOptions(options);
+        this.withData(data)
+            .withOptions(options)
+            .initialiseHttpHandler(options)
+            .initialiseErrorHandler(options);
     }
 
     /**
