@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.x)
 
+## [v0.0.7](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.7) - 09-10-2023
+
 ### Added
 
 - Add `initialise` private method to Form
@@ -14,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Update type hints on `Form` class
 - Update http initialise method call priority
+- Update README.md with CI badges
 
 ## [v0.0.6](https://github.com/fornlinkjs/fornlink/compare/v0.0.5...v0.0.6) - 09-10-2023
 
