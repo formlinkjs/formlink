@@ -6,15 +6,16 @@ import { Handler as ErrorHandlerInterface } from './../interfaces/exceptions/han
 import { type AxiosInstance, type AxiosStatic } from 'axios';
 import _ from 'lodash';
 import { guardAgainstReservedFieldName } from './../support/field-name-validator';
-import { Http } from './http';
 import { Http as HttpEnum } from './../enums/http';
 import { Methods } from './../enums/methods';
-import { hasFilesDeep } from './../support/helpers';
+import { hasFilesDeep, makeError } from './../support/helpers';
 import { objectToFormData } from './../support/form-data';
 import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
 import { RequestTypes } from './../interfaces/http/request-types';
 import { reservedFieldNames } from '../support/field-name-validator';
 import axios from 'axios';
+import { Exception } from '../enums/exception';
+import { Http } from './http';
 
 export class Form implements FormInterface {
     /**
@@ -381,6 +382,31 @@ export class Form implements FormInterface {
         this.resetStatus();
     }
 
+    /**
+   * Extract the errors from the response object.
+   *
+   * @param   {Response}  response
+   *
+   * @return  {Record<string, any>}
+   */
+    public extractErrors (response: Response): Record<string, any> {
+        const key = this.getFirstInputFieldName();
+
+        if (!response.data || typeof response.data !== 'object') {
+            return makeError({
+                [key as string]: [Exception.DEFAULT_MESSAGE]
+            });
+        }
+
+        if (!response.data.errors) {
+            return makeError({
+                [key as string]: [response.data.message]
+            });
+        }
+
+        return response;
+    }
+
 
     /**
      * Assign data to current instance of form object.
@@ -450,6 +476,15 @@ export class Form implements FormInterface {
         callback(this.getData());
 
         return this;
+    }
+
+    /**
+     * Get the first available input field name.
+     *
+     * @return  {string|undefined}
+     */
+    protected getFirstInputFieldName (): string | undefined {
+        return _.first(Object.keys(this.data));
     }
 
     /**
