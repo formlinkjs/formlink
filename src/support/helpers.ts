@@ -1,5 +1,5 @@
 import { ErrorData } from './../interfaces/exceptions/error-data';
-import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
+import { ErrorResponse } from './../interfaces/exceptions/error-response';
 import { Response } from './../interfaces/http/response';
 import _ from 'lodash';
 import { Http } from './../enums/http';
@@ -53,13 +53,13 @@ export const isFile = (object: any): boolean => {
  *
  * @param  {object} errors
  *
- * @return {ErrorRepsonse}
+ * @return {ErrorResponse}
  */
-export const makeError = (errors: { [key: string]: string[]; }): ErrorRepsonse => {
+export const makeError = (errors: { [key: string]: string[]; }): ErrorResponse => {
     return {
         response: {
             status: Http.UNPROCESSABLE_ENTITY,
             data: { errors } as ErrorData
         } as Response
-    } as ErrorRepsonse;
+    } as ErrorResponse;
 };

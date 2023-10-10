@@ -1,5 +1,5 @@
 import { ErrorObject } from './error-object';
-import { ErrorRepsonse } from './error-response';
+import { ErrorResponse } from './error-response';
 
 export interface Handler {
     /**
@@ -55,11 +55,11 @@ export interface Handler {
     /**
      * Record error messages object.
      *
-     * @param  {ErrorRepsonse} errors
+     * @param  {ErrorResponse} errors
      *
      * @return {void}
      */
-    record (errors: ErrorRepsonse): void;
+    record (errors: ErrorResponse): void;
 
     /**
      * Clear message of given error field.

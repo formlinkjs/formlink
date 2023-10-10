@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Handler as ExceptionHadlder } from './../interfaces/exceptions/handler';
 import { Parser } from './parser';
 import { ErrorObject } from './../interfaces/exceptions/error-object';
-import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
+import { ErrorResponse } from './../interfaces/exceptions/error-response';
 import { Http } from './../enums/http';
 import { ErrorData } from './../interfaces/exceptions/error-data';
 
@@ -24,11 +24,11 @@ export class Handler implements ExceptionHadlder {
     /**
      * Create new errors handler instance.
      *
-     * @param  {ErrorRepsonse} errors
+     * @param  {ErrorResponse} errors
      *
      * @return {void}
      */
-    constructor (errors?: ErrorRepsonse) {
+    constructor (errors?: ErrorResponse) {
         if (errors) {
             this.errors = this.parseErrors(errors);
         }
@@ -128,23 +128,23 @@ export class Handler implements ExceptionHadlder {
     /**
      * Record error messages object.
      *
-     * @param  {ErrorRepsonse} errors
+     * @param  {ErrorResponse} errors
      *
      * @return {void}
      */
-    public record (errors: ErrorRepsonse): void {
+    public record (errors: ErrorResponse): void {
         this.errors = this.parseErrors(errors);
     }
 
     /**
      * Parse errors object.
      *
-     * @param  {ErrorRepsonse} errors
+     * @param  {ErrorResponse} errors
      *
      * @return {ErrorObject[]}
      */
     private parseErrors (
-        errors: ErrorRepsonse
+        errors: ErrorResponse
     ): ErrorObject[] {
         this.status = errors.response?.status || Http.UNPROCESSABLE_ENTITY;
 

@@ -10,7 +10,7 @@ import { Http as HttpEnum } from './../enums/http';
 import { Methods } from './../enums/methods';
 import { hasFilesDeep, makeError } from './../support/helpers';
 import { objectToFormData } from './../support/form-data';
-import { ErrorRepsonse } from './../interfaces/exceptions/error-response';
+import { ErrorResponse } from './../interfaces/exceptions/error-response';
 import { RequestTypes } from './../interfaces/http/request-types';
 import { reservedFieldNames } from '../support/field-name-validator';
 import axios from 'axios';
@@ -355,11 +355,11 @@ export class Form implements FormInterface {
     /**
      * Actions to be performed on failed request attempt.
      *
-     * @param   {ErrorRepsonse|any}  error
+     * @param   {ErrorResponse|any}  error
      *
      * @return  {void}
      */
-    private onFail (error: ErrorRepsonse | any): void {
+    private onFail (error: ErrorResponse | any): void {
         if (
             (error !== null || error !== undefined)
             && !_.has(error, 'response')
@@ -375,9 +375,7 @@ export class Form implements FormInterface {
             error.response?.status || HttpEnum.INTERNAL_SERVER_ERROR
         );
 
-        if (error.response.data) {
-            errorHandler.record(error);
-        }
+        errorHandler.record(this.extractErrors(error));
 
         this.resetStatus();
     }
@@ -387,9 +385,9 @@ export class Form implements FormInterface {
    *
    * @param   {Response}  response
    *
-   * @return  {Record<string, any>}
+   * @return  {ErrorResponse}
    */
-    public extractErrors (response: Response): Record<string, any> {
+    public extractErrors (response: Response): ErrorResponse {
         const key = this.getFirstInputFieldName();
 
         if (!response.data || typeof response.data !== 'object') {
@@ -404,7 +402,7 @@ export class Form implements FormInterface {
             });
         }
 
-        return response;
+        return { response } as ErrorResponse;
     }
 
 
@@ -483,7 +481,7 @@ export class Form implements FormInterface {
      *
      * @return  {string|undefined}
      */
-    protected getFirstInputFieldName (): string | undefined {
+    private getFirstInputFieldName (): string | undefined {
         return _.first(Object.keys(this.data));
     }
 

@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.x)
 
+## [v0.0.8](https://github.com/formlinkjs/formlink/compare/v0.0.7...v0.0.8) - 10-10-2023
+
+### Added
+
+- Add `extractError` private method to Form
+- Add `getFirstInputFieldName` private method to Form
+- Add `exception` enum
+
+### Changes
+
+- Update error handler to extract error from response
+
+### Fixed
+
+- Fix typo on ErrorResponse interface name
+
 ## [v0.0.7](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.7) - 09-10-2023
 
 ### Added
