@@ -1,4 +1,4 @@
-[![Formlink](https://github.com/formlinkjs/formlink/tree/main/assets/Banner.png)](https://formlinkjs.com/)
+[![Formlink](https://github.com/formlinkjs/formlink/blob/main/assets/Banner.png)](https://formlinkjs.com/)
 
 > PLEASE DO NOT USE THIS LIBRARY IN PRODUCTION AS IT HAS MULTIPLE ISSUES THAT REQUIRE FIXING
 
