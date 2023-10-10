@@ -53,19 +53,19 @@ const submit = () => {
     <form @submit.prevent="submit">
         <div>
             <InputLabel for="email" value="Email" />
-            <TextInput id="email" v-model="form.email" type="email" />
+            <TextInput id="email" v-model="form.data.email" type="email" />
             <InputError :message="form.error('email')" />
         </div>
 
         <div>
             <InputLabel for="password" value="Password" />
-            <TextInput id="password" v-model="form.password" type="password" />
+            <TextInput id="password" v-model="form.data.password" type="password" />
             <InputError :message="form.error('password')" />
         </div>
 
         <div>
             <label>
-                <Checkbox v-model:checked="form.remember" name="remember" />
+                <Checkbox v-model:checked="form.data.remember" name="remember" />
                 <span>Remember me</span>
             </label>
         </div>
@@ -110,19 +110,19 @@ return (
         <form onSubmit={submit}>
             <div>
                 <InputLabel for="email" value="Email" />
-                <TextInput id="email" value={form.email} type="email" />
+                <TextInput id="email" value={form.data.email} type="email" />
                 <InputError message={form.error('email')} />
             </div>
 
             <div>
                 <InputLabel for="password" value="Password" />
-                <TextInput id="password" value={form.password} type="password" />
+                <TextInput id="password" value={form.data.password} type="password" />
                 <InputError message={form.error('password')} />
             </div>
 
             <div>
                 <label>
-                    <Checkbox value={form.remember} name="remember" />
+                    <Checkbox value={form.data.remember} name="remember" />
                     <span>Remember me</span>
                 </label>
             </div>
@@ -178,19 +178,19 @@ onMount(() => {
 <form on:submit|preventDefault={submit}>
     <div>
         <label for="email">Email</label>
-        <input id="email" bind:value={email} type="email" on:input={() => (form.email = email)} />
+        <input id="email" bind:value={email} type="email" on:input={() => (form.data.email = email)} />
         <div>{form.error('email')}</div>
     </div>
 
     <div>
         <label for="password">Password</label>
-        <input id="password" bind:value={password} type="password" on:input={() => (form.password = password)} />
+        <input id="password" bind:value={password} type="password" on:input={() => (form.data.password = password)} />
         <div>{form.error('password')}</div>
     </div>
 
     <div>
         <label>
-            <input type="checkbox" bind:checked={remember} name="remember" on:change={() => (form.remember = remember)} />
+            <input type="checkbox" bind:checked={remember} name="remember" on:change={() => (form.data.remember = remember)} />
             <span>Remember me</span>
         </label>
     </div>
