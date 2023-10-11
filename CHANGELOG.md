@@ -4,28 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.x)
+## [Unreleased](https://github.com/formlinkjs/formlink/compare/v0.0.7...v0.0.x)
 
-## [v0.0.8](https://github.com/formlinkjs/formlink/compare/v0.0.7...v0.0.8) - 10-10-2023
+## [v0.0.7](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.7) - 1-10-2023
 
 ### Added
 
 - Add `extractError` private method to Form
 - Add `getFirstInputFieldName` private method to Form
 - Add `exception` enum
-
-### Changes
-
-- Update error handler to extract error from response
-
-### Fixed
-
-- Fix typo on ErrorResponse interface name
-
-## [v0.0.7](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.7) - 09-10-2023
-
-### Added
-
 - Add `initialise` private method to Form
 
 ### Changed
@@ -33,6 +20,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update type hints on `Form` class
 - Update http initialise method call priority
 - Update README.md with CI badges
+- Update error handler to extract error from response
+
+### Fixed
+
+- Fix typo on ErrorResponse interface name
 
 ## [v0.0.6](https://github.com/fornlinkjs/fornlink/compare/v0.0.5...v0.0.6) - 09-10-2023
 
