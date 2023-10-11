@@ -4,6 +4,7 @@ import type { FormOptions } from './interfaces/form/form-options';
 import { Http } from './clients/http';
 import type { Http as HttpInterface } from './interfaces/clients/http';
 import type { HttpOptions } from './interfaces/http/http-options';
+import type { Response } from './interfaces/http/response';
 import { ErrorObject } from './exceptions/error-object';
 import type { ErrorObject as ErrorObjectType } from './interfaces/exceptions/error-object';
 import type { ErrorResponse } from './interfaces/exceptions/error-response';
@@ -19,6 +20,7 @@ export {
     Http,
     HttpInterface,
     HttpOptions,
+    Response,
     Methods,
     ErrorObject,
     ErrorObjectType,
