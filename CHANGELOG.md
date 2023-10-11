@@ -4,9 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/formlinkjs/formlink/compare/v0.0.7...v0.0.x)
+## [Unreleased](https://github.com/formlinkjs/formlink/compare/v0.0.10...v0.0.x)
 
-## [v0.0.7](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.7) - 1-10-2023
+## [v0.0.10](https://github.com/formlinkjs/formlink/compare/v0.0.9...v0.0.10) - 11-10-2023
+
+### Changed
+
+- Update import statements to use proper relative paths
+- Export response types and error types from `index.ts`
+
+## [v0.0.9](https://github.com/formlinkjs/formlink/compare/v0.0.6...v0.0.9) - 10-10-2023
 
 ### Added
 
