@@ -1,4 +1,4 @@
-import { Http } from './../../enums/http';
+import { Http } from '../../enums/http';
 
 export type HttpOptions = {
     withCredentials: boolean,

@@ -1,3 +1,3 @@
-import { Methods } from './../../enums/methods';
+import { Methods } from '../../enums/methods';
 
 export type RequestTypes = Methods;

@@ -1,4 +1,4 @@
-import { FormDataConvertible } from './../interfaces/form/form-data';
+import { FormDataConvertible } from '../interfaces/form/form-data';
 
 /**
  * Convert an object to FormData.

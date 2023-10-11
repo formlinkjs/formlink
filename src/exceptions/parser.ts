@@ -1,6 +1,6 @@
 import { ErrorObject } from './error-object';
-import { ErrorObject as ErrorObjectType } from './../interfaces/exceptions/error-object';
-import { ErrorData } from './../interfaces/exceptions/error-data';
+import { ErrorObject as ErrorObjectType } from '../interfaces/exceptions/error-object';
+import { ErrorData } from '../interfaces/exceptions/error-data';
 import _ from 'lodash';
 
 export class Parser {

@@ -1,8 +1,8 @@
-import { ErrorData } from './../interfaces/exceptions/error-data';
-import { ErrorResponse } from './../interfaces/exceptions/error-response';
-import { Response } from './../interfaces/http/response';
+import { ErrorData } from '../interfaces/exceptions/error-data';
+import { ErrorResponse } from '../interfaces/exceptions/error-response';
+import { Response } from '../interfaces/http/response';
 import _ from 'lodash';
-import { Http } from './../enums/http';
+import { Http } from '../enums/http';
 
 /**
  * Determine if file data are available embedded into the data object.

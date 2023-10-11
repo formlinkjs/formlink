@@ -1,5 +1,7 @@
 import { AxiosStatic } from 'axios';
-import { Handler as ErrorHandlerInterface } from './../exceptions/handler';
+import { Handler as ErrorHandlerInterface } from '../exceptions/handler';
+import { Response } from '../http/response';
+import { ErrorResponse } from '../exceptions/error-response';
 
 export type FormOptions = {
     resetOnSuccess?: boolean,
@@ -13,7 +15,7 @@ export type FormOptions = {
     only?: string[],
     onBefore?: () => void;
     onCancel?: () => void;
-    onSuccess?: (response: any) => void;
-    onFail?: (error: any) => void;
+    onSuccess?: (response: Response) => void;
+    onFail?: (error: ErrorResponse) => void;
     onFinish?: () => void;
 };

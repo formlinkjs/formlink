@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { Handler as ExceptionHadlder } from './../interfaces/exceptions/handler';
+import { Handler as ExceptionHadlder } from '../interfaces/exceptions/handler';
 import { Parser } from './parser';
-import { ErrorObject } from './../interfaces/exceptions/error-object';
-import { ErrorResponse } from './../interfaces/exceptions/error-response';
-import { Http } from './../enums/http';
-import { ErrorData } from './../interfaces/exceptions/error-data';
+import { ErrorObject } from '../interfaces/exceptions/error-object';
+import { ErrorResponse } from '../interfaces/exceptions/error-response';
+import { Http } from '../enums/http';
+import { ErrorData } from '../interfaces/exceptions/error-data';
 
 export class Handler implements ExceptionHadlder {
     /**

@@ -1,17 +1,17 @@
-import { Form as FormInterface } from './../interfaces/clients/form';
-import { Response } from './../interfaces/http/response';
-import { FormOptions } from './../interfaces/form/form-options';
-import { Handler as ErrorHandler } from './../exceptions/handler';
-import { Handler as ErrorHandlerInterface } from './../interfaces/exceptions/handler';
+import { Form as FormInterface } from '../interfaces/clients/form';
+import { Response } from '../interfaces/http/response';
+import { FormOptions } from '../interfaces/form/form-options';
+import { Handler as ErrorHandler } from '../exceptions/handler';
+import { Handler as ErrorHandlerInterface } from '../interfaces/exceptions/handler';
 import { type AxiosInstance, type AxiosStatic } from 'axios';
 import _ from 'lodash';
-import { guardAgainstReservedFieldName } from './../support/field-name-validator';
-import { Http as HttpEnum } from './../enums/http';
-import { Methods } from './../enums/methods';
-import { hasFilesDeep, makeError } from './../support/helpers';
-import { objectToFormData } from './../support/form-data';
-import { ErrorResponse } from './../interfaces/exceptions/error-response';
-import { RequestTypes } from './../interfaces/http/request-types';
+import { guardAgainstReservedFieldName } from '../support/field-name-validator';
+import { Http as HttpEnum } from '../enums/http';
+import { Methods } from '../enums/methods';
+import { hasFilesDeep, makeError } from '../support/helpers';
+import { objectToFormData } from '../support/form-data';
+import { ErrorResponse } from '../interfaces/exceptions/error-response';
+import { RequestTypes } from '../interfaces/http/request-types';
 import { reservedFieldNames } from '../support/field-name-validator';
 import axios from 'axios';
 import { Exception } from '../enums/exception';
@@ -150,16 +150,16 @@ export class Form implements FormInterface {
     /**
      * Create static instance of form object.
      *
-     * @param   {Record<string, any>}  data
+     * @param   {Record<string, any>|undefined}  data
      * @param   {Partial<FormOptions>|undefined}  options
      *
      * @return  {Form}
      */
     public static create (
-        data: Record<string, any>,
+        data?: Record<string, any>,
         options?: Partial<FormOptions>
     ): Form {
-        return new Form(data, options);
+        return new Form(data || {}, options);
     }
 
     /**
@@ -256,7 +256,7 @@ export class Form implements FormInterface {
         this.validateRequestType(method);
 
         return await this.makeRequest(method, url, options)
-            .then((response) => {
+            .then((response: Response) => {
                 this.errorHandler?.clear();
 
                 this.onSuccess(response);
@@ -265,7 +265,7 @@ export class Form implements FormInterface {
                     return options.onSuccess(response);
                 }
             })
-            .catch((errors) => {
+            .catch((errors: ErrorResponse) => {
                 this.onFail(errors);
 
                 if (options.onFail) {
