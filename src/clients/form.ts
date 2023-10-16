@@ -23,7 +23,7 @@ export class Form implements FormInterface {
      *
      * @var {Record<string, any>}
      */
-    private initial: Record<string, any> = {};
+    public initial: Record<string, any> = {};
 
     /**
      * All form input data.
@@ -112,10 +112,10 @@ export class Form implements FormInterface {
     public getProxy (instance: Form): Form {
         return new Proxy(instance, {
             set: (obj: Form, prop: string, value) => {
-                _.set(obj, prop, value);
+                _.set(obj.data, prop, value);
 
                 if (
-                    reservedFieldNames.indexOf(prop as any) === -1 &&
+                    _.includes(reservedFieldNames, prop) &&
                     value !== obj.initial[prop as string]
                 ) {
                     obj.setIsDirty(true);
