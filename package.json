@@ -12,7 +12,9 @@
             "types": "./dist/index.d.ts",
             "import": "./dist/index.es.js",
             "require": "./dist/index.js"
-        }
+        },
+        "./dist/*": "./dist/*",
+        "./package.json": "./package.json"
     },
     "license": "MIT",
     "repository": {
