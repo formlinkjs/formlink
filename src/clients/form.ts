@@ -112,7 +112,7 @@ export class Form implements FormInterface {
     public getProxy (instance: Form): Form {
         return new Proxy(instance, {
             set: (obj: Form, prop: string, value) => {
-                _.set(obj.data, prop, value);
+                _.set(obj, prop, value);
 
                 if (
                     _.includes(reservedFieldNames, prop) &&

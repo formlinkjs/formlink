@@ -67,6 +67,7 @@ describe('Form', () => {
         const results = await form.get('/resource/1', {
             onSuccess: ({ data, status }: any) => {
                 expect(status).toBe(200);
+                expect(data.foo).toBe('bar');
 
                 return data;
             }

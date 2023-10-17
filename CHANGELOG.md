@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 * Fix props being set directly on form client
+* Fix all props being set inside data and initial data props of form client
 
 ## [v0.0.10](https://github.com/formlinkjs/formlink/compare/v0.0.9...v0.0.10) - 11-10-2023
 

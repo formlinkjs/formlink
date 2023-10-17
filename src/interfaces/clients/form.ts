@@ -293,4 +293,13 @@ export interface Form {
      * @return  {void}
      */
     setIsDirty (state: boolean): void;
+
+    /**
+     * Get initial/original value of given field.
+     *
+     * @param   {string}  field
+     *
+     * @return  {any}
+     */
+    getInitial (field: string): any;
 }
