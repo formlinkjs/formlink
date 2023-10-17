@@ -23,7 +23,7 @@ export class Form implements FormInterface {
      *
      * @var {Record<string, any>}
      */
-    public initial: Record<string, any> = {};
+    private initial: Record<string, any> = {};
 
     /**
      * All form input data.
@@ -116,7 +116,7 @@ export class Form implements FormInterface {
 
                 if (
                     _.includes(reservedFieldNames, prop) &&
-                    value !== obj.initial[prop as string]
+                    value !== obj.getInitial(prop as string)
                 ) {
                     obj.setIsDirty(true);
                 }
@@ -439,6 +439,17 @@ export class Form implements FormInterface {
         this.initial = {};
 
         Object.assign({}, this.initial, _.cloneDeep(values));
+    }
+
+    /**
+     * Get initial/original value of given field.
+     *
+     * @param   {string}  field
+     *
+     * @return  {any}
+     */
+    public getInitial (field: string): any {
+        return this.initial[field];
     }
 
     /**
